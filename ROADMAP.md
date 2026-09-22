@@ -38,13 +38,13 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 - [x] Criar o endpoint POST /api/feiras.
 - [x] Receber dados JSON usando @RequestBody.
 - [x] Testar o POST pelo Swagger e devolver uma mensagem com os dados recebidos.
-- [ ] Compreender e consolidar o fluxo completo da requisição na aplicação.
+- [x] Compreender e consolidar o fluxo completo da requisição na aplicação.
 
 ### Etapa 2 — Feira
 
-- [ ] Definir os dados e estados de uma feira.
-- [ ] Definir as regras de criação e encerramento.
-- [ ] Criar a estrutura de domínio.
+- [x] Definir os dados e estados de uma feira.
+- [x] Definir as regras de criação e encerramento.
+- [x] Criar a estrutura de domínio.
 - [ ] Implementar a camada de serviço.
 - [ ] Expor os primeiros endpoints da feira.
 - [ ] Testar as regras implementadas.
