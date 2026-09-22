@@ -24,17 +24,6 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 - [x] Criar README inicial.
 - [x] Inicializar Git e publicar o repositório.
 
-22/09/2026 — Preparação
-
-Concluído
-
-- Projeto Spring Boot criado e executando.
-- Swagger / OpenAPI configurado.
-- README inicial criado.
-- Git inicializado e repositório publicado no GitHub.
-
-Próxima ação: concluir os fundamentos REST.
-
 ### Etapa 1 — Fundamentos REST
 
 - [x] Entender requisição e resposta HTTP.
@@ -50,21 +39,6 @@ Próxima ação: concluir os fundamentos REST.
 - [x] Receber dados JSON usando @RequestBody.
 - [x] Testar o POST pelo Swagger e devolver uma mensagem com os dados recebidos.
 - [ ] Compreender e consolidar o fluxo completo da requisição na aplicação.
-
-22/09/2026 — Fundamentos REST
-
-Concluído
-
-- Endpoints GET e POST implementados e testados pelo Swagger.
-- Prática de @PathVariable, @RequestParam e @RequestBody.
-- DTO FeiraRequest criado com atributos, getters e setters.
-- Operações simples praticadas: dobro, soma e subtotal.
-
-Em andamento
-
-- Consolidar o fluxo de requisição e resposta na aplicação.
-
-Próxima ação: concluir a Etapa 1 e iniciar a modelagem da feira.
 
 ### Etapa 2 — Feira
 
@@ -118,11 +92,13 @@ Próxima ação: concluir a Etapa 1 e iniciar a modelagem da feira.
 - [ ] Revisar o README.
 - [ ] Verificar os critérios de conclusão do MVP.
 
+
 ## Registro de progresso
 
 | Data | Etapa | O que foi feito | Próxima ação |
 |---|---|---|---|
-| 2026-09-22 | Preparação | Projeto criado, Swagger acessível e repositório publicado | Iniciar fundamentos REST |
+| 2026-09-22 | Preparação | Projeto Spring Boot criado, Swagger configurado e repositório publicado no GitHub. | Iniciar fundamentos REST. |
+| 2026-09-22 | Fundamentos REST | Endpoints GET e POST implementados e testados no Swagger. Prática de `@PathVariable`, `@RequestParam` e `@RequestBody`. DTO `FeiraRequest` criado com atributos, getters e setters. | Consolidar o fluxo da requisição e resposta para concluir a Etapa 1. |
 
 ## Decisões e pendências
 
