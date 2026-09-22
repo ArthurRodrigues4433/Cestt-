@@ -1,4 +1,4 @@
-package com.cestto.cestto;
+package com.cestto.cestto.domain;
 
 public class Feira {
     private String nome;

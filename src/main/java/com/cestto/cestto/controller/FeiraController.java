@@ -1,5 +1,7 @@
-package com.cestto.cestto;
+package com.cestto.cestto.controller;
 
+import com.cestto.cestto.domain.Feira;
+import com.cestto.cestto.dto.FeiraRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

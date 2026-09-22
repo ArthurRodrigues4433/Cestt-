@@ -1,4 +1,4 @@
-package com.cestto.cestto;
+package com.cestto.cestto.domain;
 
 public class TestFinalizarFeira {
     public static void main(String[] args) {

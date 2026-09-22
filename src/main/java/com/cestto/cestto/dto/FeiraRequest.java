@@ -1,4 +1,4 @@
-package com.cestto.cestto;
+package com.cestto.cestto.dto;
 
 public class FeiraRequest {
     private String nome;

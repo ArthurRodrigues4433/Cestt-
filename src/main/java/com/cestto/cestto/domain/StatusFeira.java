@@ -1,4 +1,4 @@
-package com.cestto.cestto;
+package com.cestto.cestto.domain;
 
 public enum StatusFeira {
     EM_ANDAMENTO,
