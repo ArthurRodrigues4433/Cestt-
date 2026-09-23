@@ -26,6 +26,8 @@
 - [Escopo da aplicação](#-escopo-da-aplicação)
 - [Tecnologias](#-tecnologias)
 - [Arquitetura](#-arquitetura)
+- [Funcionalidades implementadas](#-funcionalidades-implementadas)
+- [Como executar os testes](#-como-executar-os-testes)
 - [Documentação da API](#-documentação-da-api)
 - [Status do projeto](#-status-do-projeto)
 - [Autor](#-autor)
@@ -87,17 +89,40 @@ As principais tecnologias utilizadas na estrutura inicial do projeto são:
 
 ## Arquitetura
 
-O projeto utiliza o padrão **MVC (Model-View-Controller)** como referência, com uma organização em camadas para separar as responsabilidades da aplicação.
+O projeto utiliza uma arquitetura em camadas, tendo o padrão MVC como referência para a organização dos componentes.
 
-A estrutura busca favorecer:
+Atualmente, a aplicação possui as seguintes camadas:
 
-- Separação de responsabilidades.
-- Organização das regras de negócio.
-- Facilidade de manutenção.
-- Evolução gradual da aplicação.
-- Maior clareza na comunicação entre as partes do sistema.
+- Controller: recebe as requisições HTTP e encaminha as operações para a camada de serviço.
+- Service: concentra a lógica de aplicação relacionada às funcionalidades.
+- Domain: contém as entidades e regras de negócio.
+- DTO: define os objetos utilizados para transportar dados entre a API e seus clientes.
 
-A arquitetura será detalhada à medida que os componentes forem implementados.
+A arquitetura está sendo desenvolvida gradualmente, buscando separar responsabilidades, facilitar a manutenção e permitir a evolução do MVP.
+
+Camadas adicionais, como Repository e persistência de dados, serão implementadas conforme o avanço do projeto.
+
+## Funcionalidades implementadas
+
+### Etapa 1 — Fundamentos REST ✅
+- [x] Endpoints GET simples com `@PathVariable` e `@RequestParam`
+- [x] Operações matemáticas: dobro, soma e subtotal
+- [x] Endpoint POST `/api/feiras` com `@RequestBody`
+- [x] Recebimento e processamento de JSON
+
+### Etapa 2 — Feira ✅
+- [x] Modelo de domínio `Feira` com estados (EM_ANDAMENTO, FINALIZADA, CANCELADA)
+- [x] Serviço `FeiraService` com lógica de criação e finalização
+- [x] Endpoint POST `/api/feiras` com validações
+- [x] Testes unitários com JUnit para regras de negócio
+
+## Como executar os testes
+
+```bash
+mvn test
+```
+
+Ou via IDE: clique com botão direito no arquivo de teste e selecione "Run".
 
 ## Documentação da API
 
@@ -111,9 +136,13 @@ http://localhost:8080/swagger-ui/index.html
 
 ## Status do projeto
 
-**Em desenvolvimento — fase inicial.**
+**Em desenvolvimento — Etapa 2 concluída.**
 
-O projeto está sendo construído gradualmente, começando pela configuração da aplicação e pela estruturação de sua base backend.
+**Progresso:**
+- ✅ Preparação e estrutura inicial
+- ✅ Fundamentos REST (Etapa 1)
+- ✅ Modelo de domínio Feira e testes unitários (Etapa 2)
+- ⏳ Próximo: Produtos e orçamento (Etapa 3)
 
 O desenvolvimento prioriza a compreensão das decisões técnicas, a implementação progressiva das regras de negócio e a entrega de um MVP funcional.
 

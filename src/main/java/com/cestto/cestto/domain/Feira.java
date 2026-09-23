@@ -27,7 +27,7 @@ public class Feira {
         this.supermercado = supermercado;
     }
 
-    private StatusFeira getStatus() {
+    public StatusFeira getStatus() {
         return status;
     }
 
@@ -38,6 +38,15 @@ public class Feira {
     public boolean finalizar(){
         if (this.status == StatusFeira.EM_ANDAMENTO){
             this.setStatus(StatusFeira.FINALIZADA);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean cancelar(){
+        if (this.status == StatusFeira.EM_ANDAMENTO){
+            this.setStatus(StatusFeira.CANCELADA);
             return true;
         }
 
