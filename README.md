@@ -112,9 +112,23 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 
 ### Etapa 2 — Feira ✅
 - [x] Modelo de domínio `Feira` com estados (EM_ANDAMENTO, FINALIZADA, CANCELADA)
-- [x] Serviço `FeiraService` com lógica de criação e finalização
-- [x] Endpoint POST `/api/feiras` com validações
-- [x] Testes unitários com JUnit para regras de negócio
+- [x] Serviço `FeiraService` com lógica de criação, consulta, finalização, cancelamento e exclusão
+- [x] Regra de negócio: apenas uma feira em andamento por vez
+- [x] Endpoint `POST /api/feiras` com validações de nome e supermercado
+- [x] Endpoints `GET /api/feiras` e `GET /api/feiras/{id}`
+- [x] Endpoints `PUT /api/feiras/{id}/finalizar` e `PUT /api/feiras/{id}/cancelar`
+- [x] Endpoint `DELETE /api/feiras/{id}` para excluir feiras canceladas
+- [x] Testes unitários com JUnit cobrindo criação, status, regras de negócio e consultas
+
+## Endpoints da API
+
+### Feiras
+- `POST /api/feiras` — cria uma nova feira
+- `GET /api/feiras` — lista todas as feiras
+- `GET /api/feiras/{id}` — busca uma feira por ID
+- `PUT /api/feiras/{id}/finalizar` — finaliza uma feira em andamento
+- `PUT /api/feiras/{id}/cancelar` — cancela uma feira em andamento
+- `DELETE /api/feiras/{id}` — remove uma feira cancelada
 
 ## Como executar os testes
 
@@ -141,7 +155,7 @@ http://localhost:8080/swagger-ui/index.html
 **Progresso:**
 - ✅ Preparação e estrutura inicial
 - ✅ Fundamentos REST (Etapa 1)
-- ✅ Modelo de domínio Feira e testes unitários (Etapa 2)
+- ✅ Gestão de feiras e regras de negócio (Etapa 2)
 - ⏳ Próximo: Produtos e orçamento (Etapa 3)
 
 O desenvolvimento prioriza a compreensão das decisões técnicas, a implementação progressiva das regras de negócio e a entrega de um MVP funcional.
@@ -150,4 +164,3 @@ O desenvolvimento prioriza a compreensão das decisões técnicas, a implementa�
 ## Autor
 
 **Arthur Rodrigues**
-

@@ -46,4 +46,49 @@ public class FeiraController {
         return ResponseEntity.ok(feiraService.getFeiras());
     }
 
+    @GetMapping("/api/feiras/{id}")
+    public ResponseEntity<Feira> getFeiraPorId(@PathVariable Long id) {
+
+        Feira feira = feiraService.getFeiraPorId(id);
+
+        if (feira == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(feira);
+    }
+
+    @PutMapping("/api/feiras/{id}/finalizar")
+    public ResponseEntity<Feira> finalizarFeira(@PathVariable Long id) {
+
+        Feira feira = feiraService.finalizarFeiraPorId(id);
+
+        if (feira == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(feira);
+    }
+
+    @PutMapping("/api/feiras/{id}/cancelar")
+    public ResponseEntity<Feira> cancelarFeira(@PathVariable Long id) {
+        Feira feira = feiraService.cancelarFeiraPorId(id);
+
+        if (feira == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(feira);
+    }
+
+    @DeleteMapping("/api/feiras/{id}")
+    public ResponseEntity<Feira> deletarFeira(@PathVariable Long id) {
+        boolean deletada = feiraService.deletarFeiraPorId(id);
+
+        if (!deletada) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }

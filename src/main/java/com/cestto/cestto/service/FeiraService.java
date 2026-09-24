@@ -42,4 +42,52 @@ public class FeiraService {
 
         return null;
     }
+
+    public Feira finalizarFeiraPorId(Long id) {
+        for (Feira f : feiras){
+            if (f.getId().equals(id)){
+                boolean finalizada = f.finalizar();
+
+                if  (finalizada){
+                    return f;
+                }
+
+                return null;
+            }
+        }
+
+        return  null;
+    }
+
+    public Feira cancelarFeiraPorId(Long id) {
+        for (Feira f : feiras){
+            if (f.getId().equals(id)){
+                boolean cancelada = f.cancelar();
+
+                if (cancelada){
+                    return f;
+                }
+
+                return null;
+            }
+        }
+
+        return  null;
+    }
+
+    public boolean deletarFeiraPorId(Long id) {
+        for (Feira f : feiras){
+            if (f.getId().equals(id)){
+
+                if(f.getStatus() == StatusFeira.CANCELADA){
+                    feiras.remove(f);
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        return  false;
+    }
 }

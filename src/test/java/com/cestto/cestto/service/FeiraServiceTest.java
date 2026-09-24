@@ -36,7 +36,7 @@ public class FeiraServiceTest {
 
     @Test
     void naoDeveFinalizarFeiraCancelada() {
-        Feira feira = new Feira(1l, "Feira do Mês", "Assai");
+        Feira feira = new Feira(1L, "Feira do Mês", "Assai");
 
         feira.cancelar();
 
@@ -48,7 +48,7 @@ public class FeiraServiceTest {
 
     @Test
     void deveFinalizarFeiraEmAndamento() {
-        Feira feira = new Feira(1l, "Feira do ano", "Assai");
+        Feira feira = new Feira(1L, "Feira do ano", "Assai");
 
         boolean resultado = feira.finalizar();
 
@@ -58,7 +58,7 @@ public class FeiraServiceTest {
 
     @Test
     void naoDeveFinalizarFeiraFinalizadaNovamente(){
-        Feira feira = new Feira(1l, "Feira do ano", "Assai");
+        Feira feira = new Feira(1L, "Feira do ano", "Assai");
 
         feira.finalizar();
 
@@ -70,7 +70,7 @@ public class FeiraServiceTest {
 
     @Test
     void deveCancelarFeiraEmAndamento() {
-        Feira feira = new Feira(1l,"Feira do ano", "Assai");
+        Feira feira = new Feira(1L,"Feira do ano", "Assai");
 
         boolean resultado = feira.cancelar();
 
@@ -80,7 +80,7 @@ public class FeiraServiceTest {
 
     @Test
     void naoDeveCancelarFeiraCanceladaNovamente(){
-        Feira feira = new Feira(1l,"Feira do ano", "Assai");
+        Feira feira = new Feira(1L,"Feira do ano", "Assai");
         feira.cancelar();
 
         boolean resultado = feira.cancelar();
@@ -166,9 +166,85 @@ public class FeiraServiceTest {
     @Test
     void deveRetornarNullQuandoFeiraNaoExiste() {
         FeiraService feiraService = new FeiraService();
-        Feira feiraEncontrada = feiraService.getFeiraPorId(1l);
+        Feira feiraEncontrada = feiraService.getFeiraPorId(1L);
 
         assertNull(feiraEncontrada);
+    }
+
+    @Test
+    void deveFinalizarFeiraPorId() {
+        FeiraService feiraService = new FeiraService();
+
+        Feira feira = feiraService.criarFeira(
+                "Feira do mês",
+                "Assai"
+        );
+
+        Feira finalizarFeira = feiraService.finalizarFeiraPorId(feira.getId());
+
+        assertNotNull(finalizarFeira);
+        assertEquals(StatusFeira.FINALIZADA, finalizarFeira.getStatus());
+    }
+
+    @Test
+    void deveCancelarFeiraPorId() {
+
+        FeiraService feiraService = new FeiraService();
+
+        Feira feira = feiraService.criarFeira(
+                "Feira do mês",
+                "Assai"
+        );
+
+        Feira cancelarFeira = feiraService.cancelarFeiraPorId(feira.getId());
+
+        assertNotNull(cancelarFeira);
+        assertEquals(StatusFeira.CANCELADA, cancelarFeira.getStatus());
+    }
+
+    @Test
+    void naoDeveCancelarFeiraNovamente() {
+
+        FeiraService feiraService = new FeiraService();
+
+        Feira feira = feiraService.criarFeira(
+                "Feira do mês",
+                "Assai"
+        );
+
+        Feira cancelarFeira = feiraService.cancelarFeiraPorId(feira.getId());
+
+        Feira cancelarFeiraNovamente = feiraService.cancelarFeiraPorId(feira.getId());
+
+        assertNotNull(cancelarFeira);
+        assertNull(cancelarFeiraNovamente);
+    }
+
+    @Test
+    void naoDeveCancelarFeiraFinalizada() {
+
+        FeiraService feiraService = new FeiraService();
+
+        Feira feira = feiraService.criarFeira(
+                "Feira do mês",
+                "Assai"
+        );
+
+        Feira finalizarFeira = feiraService.finalizarFeiraPorId(feira.getId());
+
+        Feira cancelarFeiraNovamente = feiraService.cancelarFeiraPorId(feira.getId());
+
+        assertNotNull(finalizarFeira);
+        assertNull(cancelarFeiraNovamente);
+    }
+
+    @Test
+    void deveRetornarNullAoCancelarFeiraInexistente() {
+        FeiraService feiraService = new FeiraService();
+
+        Feira cancelarFeira = feiraService.cancelarFeiraPorId(1L);
+
+        assertNull(cancelarFeira);
     }
 
 }

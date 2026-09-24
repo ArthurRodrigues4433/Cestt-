@@ -55,6 +55,11 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 * [x] Testar o bloqueio da finalização repetida de uma feira finalizada.
 * [x] Revisar Controller, Service e domínio.
 * [x] Implementar a regra de apenas uma feira ativa por usuário.
+* [x] Criar endpoints GET para listar feiras e consultar por ID.
+* [x] Implementar finalização e cancelamento de feiras por ID.
+* [x] Implementar exclusão de feira cancelada.
+* [x] Validar entrada de dados no controller (campos vazios/nulos).
+* [x] Retornar HTTP corretos (200, 400, 409 e 204).
 * [ ] Implementar persistência das feiras.
 
 ### Etapa 3 — Produtos e orçamento
@@ -107,7 +112,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 | 2026-09-22 | Preparação       | Projeto Spring Boot criado, Swagger configurado e repositório publicado no GitHub.                                                                                                                                                                          | Iniciar fundamentos REST.                                                                                   |
 | 2026-09-22 | Fundamentos REST | Endpoints GET e POST implementados e testados no Swagger. Prática de `@PathVariable`, `@RequestParam` e `@RequestBody`. DTO `FeiraRequest` criado com atributos, getters e setters.                                                                         | Consolidar o fluxo da requisição e resposta para concluir a Etapa 1.                                        |
 | 2026-09-23 | Etapa 2 — Feira  | Implementação inicial do domínio Feira, enum StatusFeira, regras de finalização e cancelamento, FeiraService e POST `/api/feiras`. Controller testado pelo Swagger. Criados e executados testes JUnit para criação, status inicial e regras de finalização. | Revisar Controller, Service e domínio; depois planejar a regra de feira ativa por usuário e a persistência. |
-| 2026-09-24 | Etapa 2 — Feira | Implementação completa: FeiraService com gerenciamento de estado (uma feira ativa por vez), métodos finalizar() e cancelar(), endpoints GET `/api/feiras` e `/api/feiras/{id}`, validações de entrada no Controller, testes JUnit abrangentes com 12 cenários testados (criação, estados, regras de negócio, consultas). | Iniciar Etapa 3 — Produtos e orçamento; avaliar persistência. |
+| 2026-09-24 | Etapa 2 — Feira | Implementação completa da gestão de feiras: regra de uma feira em andamento por vez, criação, consulta por ID, listagem, finalização, cancelamento e exclusão de feira cancelada; validações de entrada no controller e testes JUnit cobrindo criação, estados e regras de negócio. | Iniciar Etapa 3 — Produtos e orçamento e revisar a necessidade de persistência.|
 
 ## Decisões e pendências
 
