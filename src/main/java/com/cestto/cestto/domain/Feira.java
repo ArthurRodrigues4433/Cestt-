@@ -1,11 +1,13 @@
 package com.cestto.cestto.domain;
 
 public class Feira {
+    private Long id;
     private String nome;
     private String supermercado;
     private StatusFeira status;
 
-    public Feira(String nome, String supermercado) {
+    public Feira(Long id, String nome, String supermercado) {
+        this.id = id;
         this.nome = nome;
         this.supermercado = supermercado;
         this.status = StatusFeira.EM_ANDAMENTO;
@@ -13,17 +15,26 @@ public class Feira {
 
     public String  getNome() {
         return nome;
+
     }
 
-    public void setNome(String nome) {
+    private void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    private void setId(Long id) {
+        this.id = id;
     }
 
     public String getSupermercado() {
         return supermercado;
     }
 
-    public void setSupermercado(String supermercado) {
+    private void setSupermercado(String supermercado) {
         this.supermercado = supermercado;
     }
 

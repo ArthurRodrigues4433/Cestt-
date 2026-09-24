@@ -2,7 +2,7 @@ package com.cestto.cestto.domain;
 
 public class TestCancelar {
     public static void main(String[] args) {
-        Feira feira = new Feira("feira mes", "Mix mateus");
+        Feira feira = new Feira(1l, "feira mes", "Mix mateus");
 
         boolean resultado = feira.cancelar();
         System.out.println(resultado);

@@ -3,13 +3,14 @@ package com.cestto.cestto.controller;
 import com.cestto.cestto.domain.Feira;
 import com.cestto.cestto.dto.FeiraRequest;
 import com.cestto.cestto.service.FeiraService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-@RestController
+import java.util.ArrayList;
+import java.util.List;
 
+@RestController
 public class FeiraController {
 
     private final FeiraService feiraService;
@@ -33,6 +34,16 @@ public class FeiraController {
                 feiraRequest.getSupermercado()
         );
 
+        if  (feira == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Já existe uma feira em andamento.");
+        }
+
         return ResponseEntity.ok("Feira: "+ feira.getNome() + " criada no supermercado: "+feira.getSupermercado());
     }
+
+    @GetMapping("/api/feiras")
+    public ResponseEntity<List<Feira>> getFeiras() {
+        return ResponseEntity.ok(feiraService.getFeiras());
+    }
+
 }
