@@ -12,17 +12,17 @@ public class FeiraService {
 
     private final List<Feira> feiras = new ArrayList<>();
 
-    private Long proximoId = 1l;
+    private Long proximoId = 1L;
 
     public Feira criarFeira(String nome, String supermercado) {
 
-        Feira novaFeira = new Feira(this.proximoId, nome, supermercado);
-
-        for (Feira f :feiras){
+        for (Feira f : feiras){
             if (f.getStatus() == StatusFeira.EM_ANDAMENTO) {
                 return null;
             }
         }
+
+        Feira novaFeira = new Feira(this.proximoId, nome, supermercado);
 
         feiras.add(novaFeira);
         proximoId++;

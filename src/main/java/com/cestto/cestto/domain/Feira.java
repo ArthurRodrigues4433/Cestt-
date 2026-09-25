@@ -1,10 +1,14 @@
 package com.cestto.cestto.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Feira {
     private Long id;
     private String nome;
     private String supermercado;
     private StatusFeira status;
+    private List<Produto> produtos = new ArrayList<>();
 
     public Feira(Long id, String nome, String supermercado) {
         this.id = id;
@@ -13,7 +17,7 @@ public class Feira {
         this.status = StatusFeira.EM_ANDAMENTO;
     }
 
-    public String  getNome() {
+    public String getNome() {
         return nome;
 
     }
@@ -58,6 +62,19 @@ public class Feira {
     public boolean cancelar(){
         if (this.status == StatusFeira.EM_ANDAMENTO){
             this.setStatus(StatusFeira.CANCELADA);
+            return true;
+        }
+
+        return false;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public boolean adicionarProduto(Produto produto) {
+        if (this.status == StatusFeira.EM_ANDAMENTO){
+            this.produtos.add(produto);
             return true;
         }
 

@@ -3,7 +3,6 @@ package com.cestto.cestto.service;
 import com.cestto.cestto.domain.Feira;
 import com.cestto.cestto.domain.StatusFeira;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -247,4 +246,64 @@ public class FeiraServiceTest {
         assertNull(cancelarFeira);
     }
 
+    @Test
+    void deveDeletarFeiraCanceladaPorId() {
+        FeiraService feiraService = new FeiraService();
+
+        Feira feira = feiraService.criarFeira(
+                "Feira do mês",
+                "Assai"
+        );
+
+        Feira cancelarFeira = feiraService.cancelarFeiraPorId(feira.getId());
+
+        boolean resultado = feiraService.deletarFeiraPorId(feira.getId());
+
+        assertNotNull(cancelarFeira);
+        assertTrue(resultado);
+        assertFalse(feiraService.getFeiras().contains(feira));
+    }
+
+    @Test
+    void naoDeveDeletarFeiraEmAndamentoPorId() {
+        FeiraService feiraService = new FeiraService();
+
+        Feira feira = feiraService.criarFeira(
+                "Feira do mês",
+                "Assai"
+        );
+
+
+        boolean resultado = feiraService.deletarFeiraPorId(feira.getId());
+
+        assertFalse(resultado);
+        assertTrue(feiraService.getFeiras().contains(feira));
+    }
+
+    @Test
+    void naoDeveDeletarFeiraFinalizadaPorId() {
+        FeiraService feiraService = new FeiraService();
+
+        Feira feira = feiraService.criarFeira(
+                "Feira do mês",
+                "Assai"
+        );
+
+        Feira finalizarFeira = feiraService.finalizarFeiraPorId(feira.getId());
+
+        boolean resultado = feiraService.deletarFeiraPorId(feira.getId());
+
+        assertEquals(StatusFeira.FINALIZADA, finalizarFeira.getStatus());
+        assertFalse(resultado);
+        assertTrue(feiraService.getFeiras().contains(feira));
+    }
+
+    @Test
+    void deveRetornarFalseAoDeletarFeiraInexistente() {
+        FeiraService feiraService = new FeiraService();
+
+        boolean deletarFeira = feiraService.deletarFeiraPorId(1L);
+
+        assertFalse(deletarFeira);
+    }
 }

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -82,7 +81,7 @@ public class FeiraController {
     }
 
     @DeleteMapping("/api/feiras/{id}")
-    public ResponseEntity<Feira> deletarFeira(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarFeira(@PathVariable Long id) {
         boolean deletada = feiraService.deletarFeiraPorId(id);
 
         if (!deletada) {

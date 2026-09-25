@@ -1,5 +1,3 @@
-
-
 # Cesttô API
 
 > API REST para planejamento e conferência de compras de supermercado.
@@ -77,7 +75,7 @@ Entre as funcionalidades previstas para a aplicação estão:
 
 ## Tecnologias
 
-As principais tecnologias utilizadas na estrutura inicial do projeto são:
+As principais tecnologias utilizadas na estrutura atual do projeto são:
 
 | Tecnologia | Finalidade |
 |---|---|
@@ -86,6 +84,7 @@ As principais tecnologias utilizadas na estrutura inicial do projeto são:
 | Spring MVC | Desenvolvimento da camada web e dos endpoints REST |
 | Maven | Gerenciamento de dependências e build |
 | Swagger / OpenAPI | Documentação e exploração dos endpoints da API |
+| JUnit | Testes automatizados |
 
 ## Arquitetura
 
@@ -93,10 +92,10 @@ O projeto utiliza uma arquitetura em camadas, tendo o padrão MVC como referênc
 
 Atualmente, a aplicação possui as seguintes camadas:
 
-- Controller: recebe as requisições HTTP e encaminha as operações para a camada de serviço.
-- Service: concentra a lógica de aplicação relacionada às funcionalidades.
-- Domain: contém as entidades e regras de negócio.
-- DTO: define os objetos utilizados para transportar dados entre a API e seus clientes.
+- **Controller:** recebe as requisições HTTP e encaminha as operações para a camada de serviço.
+- **Service:** concentra a lógica de aplicação relacionada às funcionalidades.
+- **Domain:** contém os objetos de domínio e regras de negócio.
+- **DTO:** define os objetos utilizados para transportar dados entre a API e seus clientes.
 
 A arquitetura está sendo desenvolvida gradualmente, buscando separar responsabilidades, facilitar a manutenção e permitir a evolução do MVP.
 
@@ -105,24 +104,51 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 ## Funcionalidades implementadas
 
 ### Etapa 1 — Fundamentos REST ✅
+
 - [x] Endpoints GET simples com `@PathVariable` e `@RequestParam`
 - [x] Operações matemáticas: dobro, soma e subtotal
 - [x] Endpoint POST `/api/feiras` com `@RequestBody`
 - [x] Recebimento e processamento de JSON
+- [x] Criação e utilização do DTO `FeiraRequest`
 
 ### Etapa 2 — Feira ✅
-- [x] Modelo de domínio `Feira` com estados (EM_ANDAMENTO, FINALIZADA, CANCELADA)
-- [x] Serviço `FeiraService` com lógica de criação, consulta, finalização, cancelamento e exclusão
-- [x] Regra de negócio: apenas uma feira em andamento por vez
-- [x] Endpoint `POST /api/feiras` com validações de nome e supermercado
-- [x] Endpoints `GET /api/feiras` e `GET /api/feiras/{id}`
-- [x] Endpoints `PUT /api/feiras/{id}/finalizar` e `PUT /api/feiras/{id}/cancelar`
-- [x] Endpoint `DELETE /api/feiras/{id}` para excluir feiras canceladas
-- [x] Testes unitários com JUnit cobrindo criação, status, regras de negócio e consultas
+
+- [x] Modelo de domínio `Feira`
+- [x] Estados da feira: `EM_ANDAMENTO`, `FINALIZADA` e `CANCELADA`
+- [x] Serviço `FeiraService`
+- [x] Criação de feiras
+- [x] Consulta de feira por ID
+- [x] Listagem de feiras
+- [x] Finalização de feira
+- [x] Cancelamento de feira
+- [x] Exclusão de feira cancelada
+- [x] Regra temporária de apenas uma feira em andamento por vez
+- [x] Validação de nome e supermercado
+- [x] Testes automatizados com JUnit para as regras de negócio
+- [x] Tratamento dos principais códigos HTTP utilizados pelos fluxos implementados
+
+### Etapa 3 — Produtos e orçamento 🚧
+
+- [x] Criar o modelo de domínio `Produto`
+- [x] Definir a relação entre `Feira` e `Produto`
+- [x] Implementar escolha entre preço de varejo e atacado
+- [x] Considerar quantidade mínima para preço de atacado
+- [x] Utilizar `BigDecimal` para valores monetários
+- [x] Calcular subtotal do produto
+- [x] Adicionar produtos a uma feira em andamento
+- [x] Impedir adição de produtos em feiras finalizadas
+- [x] Criar testes automatizados para as regras de produtos
+- [ ] Implementar alteração de produtos
+- [ ] Implementar quantidades e preços através da API
+- [ ] Calcular o total previsto da feira
+- [ ] Definir as regras para alteração e remoção de produtos
+- [ ] Validar entradas e regras de negócio restantes
+- [ ] Expor endpoints para gerenciamento dos produtos
 
 ## Endpoints da API
 
 ### Feiras
+
 - `POST /api/feiras` — cria uma nova feira
 - `GET /api/feiras` — lista todas as feiras
 - `GET /api/feiras/{id}` — busca uma feira por ID
@@ -130,13 +156,17 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 - `PUT /api/feiras/{id}/cancelar` — cancela uma feira em andamento
 - `DELETE /api/feiras/{id}` — remove uma feira cancelada
 
+> Os endpoints relacionados aos produtos serão adicionados conforme o desenvolvimento da Etapa 3.
+
 ## Como executar os testes
+
+Execute o comando:
 
 ```bash
 mvn test
 ```
 
-Ou via IDE: clique com botão direito no arquivo de teste e selecione "Run".
+Ou, pela IDE, clique com o botão direito no arquivo ou classe de teste e selecione **Run**.
 
 ## Documentação da API
 
@@ -146,20 +176,28 @@ A documentação interativa é disponibilizada por meio do Swagger UI durante a 
 
 http://localhost:8080/swagger-ui/index.html
 
-> A documentação será ampliada conforme os endpoints forem desenvolvidos.
+A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 
 ## Status do projeto
 
-**Em desenvolvimento — Etapa 2 concluída.**
+**Em desenvolvimento — Etapa 3 em andamento.**
 
 **Progresso:**
+
 - ✅ Preparação e estrutura inicial
-- ✅ Fundamentos REST (Etapa 1)
-- ✅ Gestão de feiras e regras de negócio (Etapa 2)
-- ⏳ Próximo: Produtos e orçamento (Etapa 3)
+- ✅ Fundamentos REST — Etapa 1
+- ✅ Gestão de feiras e regras de negócio — Etapa 2
+- 🚧 Produtos e orçamento — Etapa 3
+- ⏳ Persistência — Etapa 4
+- ⏳ Usuários e segurança — Etapa 5
+- ⏳ Conferência — Etapa 6
+- ⏳ Qualidade e entrega — Etapa 7
+
+Atualmente, o desenvolvimento está concentrado no domínio de produtos, nas regras de preço, no cálculo de subtotais e na relação entre produtos e feiras.
+
+A aplicação ainda utiliza armazenamento em memória. A persistência dos dados será implementada posteriormente.
 
 O desenvolvimento prioriza a compreensão das decisões técnicas, a implementação progressiva das regras de negócio e a entrega de um MVP funcional.
-
 
 ## Autor
 
