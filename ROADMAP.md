@@ -84,7 +84,12 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 * [x] Testar uma feira iniciando sem produtos.
 * [x] Testar a inclusão de múltiplos produtos em uma feira.
 * [x] Testar o bloqueio de inclusão de produto em feira finalizada.
-* [ ] Implementar alteração de produtos.
+* [x] Implementar busca de produto por ID.
+* [x] Testar a busca de produto existente.
+* [x] Testar a busca de produto inexistente.
+* [x] Implementar alteração de produtos.
+* [x] Testar alteração de produto existente.
+* [x] Testar tentativa de alteração de produto inexistente.
 * [ ] Implementar quantidades e preços através da API.
 * [ ] Calcular o total previsto da feira.
 * [ ] Definir as regras para alteração e remoção de produtos.
@@ -137,6 +142,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 | 2026-09-24 | Etapa 2 — Feira | Implementação da gestão de feiras: criação, consulta por ID, listagem, finalização, cancelamento e exclusão de feira cancelada; validações no controller; testes JUnit cobrindo estados e regras de negócio. | Revisar Controller, Service e domínio. |
 | 2026-09-25 | Etapa 2 — Feira | Revisão do Controller, Service, domínio, enum e DTO. Testes JUnit concluídos para criação, busca, finalização, cancelamento e exclusão. Correções de organização e tipagem realizadas. | Iniciar Etapa 3 — Produtos e orçamento. |
 | 2026-09-25 | Etapa 3 — Produtos e orçamento | Criada a classe Produto e definida sua relação com Feira. Implementadas as regras de escolha entre preço de varejo e atacado, quantidade mínima para atacado e cálculo de subtotal com BigDecimal. Implementada a adição de produtos à Feira e criados testes JUnit para inclusão, múltiplos produtos, lista inicialmente vazia e bloqueio de inclusão em feira finalizada. | Continuar a implementação das regras de produtos e orçamento. |
+| 2026-09-27 | Etapa 3 — Produtos e orçamento | Implementada a busca de produtos por ID no ProdutoService, com testes para produto existente e inexistente. Implementada a alteração de produtos pelo ProdutoService, reutilizando a busca por ID e a lógica de alteração do domínio. Criados testes JUnit para alteração de produto existente e tentativa de alteração de produto inexistente. | Implementar quantidades e preços através da API. |
 
 ## Decisões e pendências
 
@@ -151,3 +157,5 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 - Valores monetários são representados utilizando `BigDecimal`.
 - A implementação atual de produtos ainda não possui persistência nem endpoints próprios na API.
 - Não adicionar funcionalidades ao MVP sem revisar seu impacto no planejamento.
+- A busca de produtos é realizada pelo `produtoId` dentro da Feira.
+- A alteração de produtos é coordenada pelo `ProdutoService`, que localiza o produto e utiliza a lógica de alteração existente no domínio `Produto`.

@@ -3,21 +3,26 @@ import java.math.BigDecimal;
 
 public class Produto {
 
-    private final String nome;
-    private final int quantidade;
-    private final int quantidadeMinimaAtacado;
-    private final BigDecimal precoAtacado;
-    private final BigDecimal precoVarejo;
+    private String nome;
+    private int quantidade;
+    private  int quantidadeMinimaAtacado;
+    private BigDecimal precoAtacado;
+    private  BigDecimal precoVarejo;
 
+    private final Long produtoId;
     private BigDecimal precoEscolhido;
     private BigDecimal subtotal;
 
-    public Produto(String nome, int quantidade, int quantidadeMinimaAtacado, BigDecimal precoAtacado, BigDecimal precoVarejo) {
+    public Produto(Long produtoId , String nome, int quantidade, int quantidadeMinimaAtacado, BigDecimal precoAtacado, BigDecimal precoVarejo) {
+        this.produtoId = produtoId;
         this.nome =nome;
         this.quantidade =quantidade;
         this.quantidadeMinimaAtacado =quantidadeMinimaAtacado;
         this.precoAtacado =precoAtacado;
         this.precoVarejo =precoVarejo;
+
+        escolherPreco();
+        calcularSubtotal();
     }
 
     public void escolherPreco() {
@@ -35,6 +40,18 @@ public class Produto {
 
     public void calcularSubtotal() {
         subtotal = precoEscolhido.multiply(BigDecimal.valueOf(quantidade));
+    }
+
+    public Long getProdutoId() {
+        return produtoId;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public int getQuantidadeMinimaAtacado() {
+        return quantidadeMinimaAtacado;
     }
 
     public BigDecimal getSubtotal() {
@@ -55,5 +72,22 @@ public class Produto {
 
     public String getNome() {
         return nome;
+    }
+
+    public void alterarProduto(
+            String novoNome,
+            int novaQuantidade,
+            int novaQuantidadeMinimaAtacado,
+            BigDecimal novoPrecoAtacado,
+            BigDecimal novoPrecoVarejo
+    ) {
+         nome = novoNome;
+         quantidade = novaQuantidade;
+         quantidadeMinimaAtacado = novaQuantidadeMinimaAtacado;
+         precoAtacado = novoPrecoAtacado;
+         precoVarejo = novoPrecoVarejo;
+
+         escolherPreco();
+         calcularSubtotal();
     }
 }

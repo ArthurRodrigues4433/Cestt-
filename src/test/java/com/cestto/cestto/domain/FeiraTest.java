@@ -1,13 +1,12 @@
 package com.cestto.cestto.domain;
 
-import com.cestto.cestto.service.FeiraService;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestAdicionarProduto
+public class FeiraTest
 {
     @Test
     void deveAdicionarProdutoNaFeira(){
@@ -18,6 +17,7 @@ public class TestAdicionarProduto
         );
 
         Produto produto = new Produto(
+                1L,
                 "arroz",
                 6,
                 4,
@@ -39,6 +39,7 @@ public class TestAdicionarProduto
         );
 
         Produto produto = new Produto(
+                1L,
                 "arroz",
                 6,
                 4,
@@ -46,6 +47,7 @@ public class TestAdicionarProduto
                 new BigDecimal("30.00"));
 
         Produto produto2 = new Produto(
+                1L,
                 "feijão",
                 2,
                 4,
@@ -69,6 +71,7 @@ public class TestAdicionarProduto
         feira.finalizar();
 
         Produto produto = new Produto(
+                1L,
                 "arroz",
                 6,
                 4,
@@ -79,5 +82,18 @@ public class TestAdicionarProduto
 
         assertFalse(resultado);
         assertTrue(feira.getProdutos().isEmpty());
+    }
+
+    @Test
+        void deveCancelarFeira(){
+
+        Feira feira = new Feira(1L, "feira mes", "Mix mateus");
+
+        boolean resultado = feira.cancelar();
+        assertTrue(resultado);
+        assertEquals(StatusFeira.CANCELADA, feira.getStatus());
+
+        boolean resultado2 = feira.cancelar();
+        assertFalse(resultado2);
     }
 }

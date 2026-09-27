@@ -137,8 +137,12 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 - [x] Calcular subtotal do produto
 - [x] Adicionar produtos a uma feira em andamento
 - [x] Impedir adição de produtos em feiras finalizadas
-- [x] Criar testes automatizados para as regras de produtos
-- [ ] Implementar alteração de produtos
+- [x] Implementar busca de produto por ID
+- [x] Testar a busca de produto existente
+- [x] Testar a busca de produto inexistente
+- [x] Implementar alteração de produtos
+- [x] Testar alteração de produto existente
+- [x] Testar tentativa de alteração de produto inexistente
 - [ ] Implementar quantidades e preços através da API
 - [ ] Calcular o total previsto da feira
 - [ ] Definir as regras para alteração e remoção de produtos
