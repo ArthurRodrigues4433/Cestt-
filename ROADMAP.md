@@ -91,7 +91,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 * [x] Testar alteração de produto existente.
 * [x] Testar tentativa de alteração de produto inexistente.
 * [x] Implementar quantidades e preços através da API.
-* [ ] Calcular o total previsto da feira.
+* [x] Calcular o total previsto da feira.
 * [ ] Definir as regras para alteração e remoção de produtos.
 * [ ] Validar entradas e regras de negócio.
 * [ ] Testar os cálculos e regras restantes.
@@ -143,7 +143,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 | 2026-09-25 | Etapa 2 — Feira | Revisão do Controller, Service, domínio, enum e DTO. Testes JUnit concluídos para criação, busca, finalização, cancelamento e exclusão. Correções de organização e tipagem realizadas. | Iniciar Etapa 3 — Produtos e orçamento. |
 | 2026-09-25 | Etapa 3 — Produtos e orçamento | Criada a classe Produto e definida sua relação com Feira. Implementadas as regras de escolha entre preço de varejo e atacado, quantidade mínima para atacado e cálculo de subtotal com BigDecimal. Implementada a adição de produtos à Feira e criados testes JUnit para inclusão, múltiplos produtos, lista inicialmente vazia e bloqueio de inclusão em feira finalizada. | Continuar a implementação das regras de produtos e orçamento. |
 | 2026-09-27 | Etapa 3 — Produtos e orçamento | Implementada a busca de produtos por ID no ProdutoService, com testes para produto existente e inexistente. Implementada a alteração de produtos pelo ProdutoService, reutilizando a busca por ID e a lógica de alteração do domínio. Criados testes JUnit para alteração de produto existente e tentativa de alteração de produto inexistente. | Implementar quantidades e preços através da API. |
-| 2026-09-28 | Etapa 3 — Produtos e orçamento | Adiciona domínio Produto, endpoint POST /api/feiras/{id}/produtos, validações e testes JUnit. | Implementar cálculo do total previsto da feira. |
+| 2026-09-28 | Etapa 3 — Produtos e orçamento | Implementa cálculo do total previsto da feira com método `getTotalPrevisto()` em `Feira` e 3 testes JUnit. | Definir regras para alteração e remoção de produtos. |
 ## Decisões e pendências
 
 - A regra atual permite apenas uma feira `EM_ANDAMENTO` por vez em toda a aplicação.

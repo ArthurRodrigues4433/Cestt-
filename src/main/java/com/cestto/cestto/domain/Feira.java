@@ -1,5 +1,6 @@
 package com.cestto.cestto.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,5 +80,13 @@ public class Feira {
         }
 
         return false;
+    }
+
+    public BigDecimal getTotalPrevisto(){
+        BigDecimal total = BigDecimal.ZERO;
+        for (Produto produto : produtos) {
+            total = total.add(produto.getSubtotal());
+        }
+        return total;
     }
 }
