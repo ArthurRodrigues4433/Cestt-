@@ -19,6 +19,11 @@ public class ProdutoService {
             BigDecimal precoAtacado,
             BigDecimal precoVarejo) {
 
+        if (quantidadeMinimaAtacado > 0
+                && (precoAtacado == null || precoAtacado.compareTo(BigDecimal.ZERO) <= 0)) {
+            return  null;
+        }
+
         Produto novoProduto = new Produto(
                 this.proximoId,
                 nome,

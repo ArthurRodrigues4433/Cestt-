@@ -151,4 +151,30 @@ public class TestProdutoService {
 
         assertNull(resultado);
     }
+
+
+    @Test
+    void deveRecusarProdutoSemPrecoAtacadoQuandoQuantidadeMinimaForMaiorQueZero(){
+
+        Feira feira = new Feira(
+                1L,
+                "Feira do mês",
+                "Assai"
+        );
+
+        ProdutoService service = new ProdutoService();
+
+        Produto produto = service.criarProduto(
+                feira,
+                "arroz",
+                6,
+                4,
+                null,
+                new BigDecimal("25.00")
+        );
+
+        assertNull(produto);
+        assertTrue(feira.getProdutos().isEmpty());
+    }
+
 }

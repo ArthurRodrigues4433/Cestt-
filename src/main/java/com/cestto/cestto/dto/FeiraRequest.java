@@ -1,6 +1,6 @@
 package com.cestto.cestto.dto;
 
-public class FeiraRequest {
+public class    FeiraRequest {
     private String nome;
     private String supermercado;
 
