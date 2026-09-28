@@ -2,9 +2,11 @@ package com.cestto.cestto.service;
 
 import com.cestto.cestto.domain.Feira;
 import com.cestto.cestto.domain.Produto;
+import com.cestto.cestto.domain.StatusFeira;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ProdutoService {
@@ -67,8 +69,11 @@ public class ProdutoService {
             BigDecimal novoPrecoVarejo
     ) {
 
-        Produto produto= buscarProduto(feira, produtoId );
+        if (feira.getStatus() != StatusFeira.EM_ANDAMENTO) {
+            return null;
+        }
 
+        Produto produto= buscarProduto(feira, produtoId );
         if (produto == null) {
             return null;
         }
@@ -82,5 +87,20 @@ public class ProdutoService {
         );
 
         return produto;
+    }
+
+    public boolean removerProduto(Feira feira, Long produtoId) {
+        if (feira.getStatus() != StatusFeira.EM_ANDAMENTO) {
+            return false;
+        }
+
+        for (Produto produto : feira.getProdutos()) {
+            if (produto.getProdutoId().equals(produtoId)) {
+                feira.getProdutos().remove(produto);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

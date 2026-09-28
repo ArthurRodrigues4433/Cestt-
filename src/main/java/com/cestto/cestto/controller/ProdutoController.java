@@ -8,12 +8,10 @@ import com.cestto.cestto.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 public class ProdutoController {
@@ -53,5 +51,56 @@ public class ProdutoController {
         }
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(produto);
+    }
+
+    @GetMapping("/api/feiras/{feirasId}/produtos")
+    public ResponseEntity<List<Produto>> listarProdutos(@PathVariable Long feirasId) {
+        Feira feira = feiraService.getFeiraPorId(feirasId);
+
+        if (feira == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(feira.getProdutos());
+    }
+
+    @GetMapping("/api/feiras/{feirasId}/produtos/{produtoId}")
+    public ResponseEntity<Produto> buscarProdutoPorId(
+            @PathVariable Long feirasId,
+            @PathVariable Long produtoId) {
+
+        Feira feira = feiraService.getFeiraPorId(feirasId);
+
+        if (feira == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Produto produto = produtoService.buscarProduto(feira, produtoId);
+
+        if (produto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(produto);
+    }
+
+    @DeleteMapping("/api/feiras/{feirasId}/produtos/{produtoId}")
+    public ResponseEntity<Produto> deletarProduto(
+            @PathVariable Long feirasId,
+            @PathVariable Long produtoId) {
+
+        Feira feira = feiraService.getFeiraPorId(feirasId);
+
+        if (feira == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        boolean removido = produtoService.removerProduto(feira, produtoId);
+
+        if (!removido) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

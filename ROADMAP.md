@@ -92,7 +92,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 * [x] Testar tentativa de alteração de produto inexistente.
 * [x] Implementar quantidades e preços através da API.
 * [x] Calcular o total previsto da feira.
-* [ ] Definir as regras para alteração e remoção de produtos.
+* [x] Definir as regras para alteração e remoção de produtos.
 * [ ] Validar entradas e regras de negócio.
 * [ ] Testar os cálculos e regras restantes.
 * [ ] Expor endpoints da API para gerenciamento dos produtos.

@@ -177,4 +177,122 @@ public class TestProdutoService {
         assertTrue(feira.getProdutos().isEmpty());
     }
 
+    @Test
+    void naoDeveAlterarProdutoEmFeiraFinalizadaOuCancelada(){
+
+        Feira feira = new Feira(
+                1L,
+                "Feira do mês",
+                "Assai"
+        );
+
+        ProdutoService service = new ProdutoService();
+
+        Produto produto = service.criarProduto(
+                feira,
+                "arroz",
+                6,
+                4,
+                new BigDecimal("15.00"),
+                new BigDecimal("25.00")
+        );
+
+        feira.finalizar();
+
+        Produto resultado = service.alterarProduto(
+                feira,
+                produto.getProdutoId(),
+                "feijao",
+                10,
+                5,
+                new BigDecimal("28.00"),
+                new BigDecimal("45.00")
+        );
+
+        assertNull(resultado);
+        assertEquals("arroz", produto.getNome());
+        assertEquals(6, produto.getQuantidade());
+        assertEquals(4, produto.getQuantidadeMinimaAtacado());
+        assertEquals(new BigDecimal("25.00"), produto.getPrecoVarejo());
+    }
+
+    @Test
+    void deveRemoverProdutoEmFeirasEmAndamento(){
+
+        Feira feira = new Feira(
+                1L,
+                "Feira do mês",
+                "Assai"
+        );
+
+        ProdutoService service = new ProdutoService();
+
+        Produto produto = service.criarProduto(
+                feira,
+                "arroz",
+                6,
+                4,
+                new BigDecimal("15.00"),
+                new BigDecimal("25.00")
+        );
+
+        boolean resultado = service.removerProduto(feira, produto.getProdutoId());
+
+        assertTrue(resultado);
+        assertTrue(feira.getProdutos().isEmpty());
+    }
+
+    @Test
+    void naoDeveRemoverProdutoEmFeiraFinalizada(){
+
+        Feira feira = new Feira(
+                1L,
+                "Feira do mês",
+                "Assai"
+        );
+
+        ProdutoService service = new ProdutoService();
+
+        Produto produto = service.criarProduto(
+                feira,
+                "arroz",
+                6,
+                4,
+                new BigDecimal("15.00"),
+                new BigDecimal("25.00")
+        );
+
+        feira.finalizar();
+
+        boolean resultado = service.removerProduto(feira, produto.getProdutoId());
+
+        assertFalse(resultado);
+        assertFalse(feira.getProdutos().isEmpty());
+    }
+
+    @Test
+    void naoDeveRemoverProdutoInexistente(){
+        Feira feira = new Feira(
+                1L,
+                "Feira do mês",
+                "Assai"
+        );
+
+        ProdutoService service = new ProdutoService();
+
+        Produto produto = service.criarProduto(
+                feira,
+                "arroz",
+                6,
+                4,
+                new BigDecimal("15.00"),
+                new BigDecimal("25.00")
+        );
+
+        boolean resultado = service.removerProduto(feira, 555L);
+
+        assertFalse(resultado);
+        assertFalse(feira.getProdutos().isEmpty());
+    }
+
 }
