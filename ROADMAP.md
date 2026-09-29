@@ -145,6 +145,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 | 2026-09-27 | Etapa 3 — Produtos e orçamento | Implementada a busca de produtos por ID no ProdutoService, com testes para produto existente e inexistente. Implementada a alteração de produtos pelo ProdutoService, reutilizando a busca por ID e a lógica de alteração do domínio. Criados testes JUnit para alteração de produto existente e tentativa de alteração de produto inexistente. | Implementar quantidades e preços através da API. |
 | 2026-09-28 | Etapa 3 — Produtos e orçamento | Implementa validação de alteração em feiras não EM_ANDAMENTO e remoção de produtos. Adiciona endpoints GET/DELETE para gerenciamento via API. Endpoints testados no Swagger. | Criar testes JUnit para ProdutoController. |
 | 2026-09-28 | Etapa 3 — Produtos e orçamento | Implementa cálculo do total previsto da feira com método `getTotalPrevisto()` em `Feira` e 3 testes JUnit. | Definir regras para alteração e remoção de produtos. |
+| 2026-09-29 | Etapa 3 — Produtos e orçamento | Implementado cálculo do total previsto da feira em `Feira`, regras de alteração e remoção no `ProdutoService`, e endpoints de listagem, busca e remoção no `ProdutoController`. Testes JUnit do domínio e do service cobrindo as regras. | Criar testes JUnit para o Controller quando aprender MockMvc. |
 ## Decisões e pendências
 
 - A regra atual permite apenas uma feira `EM_ANDAMENTO` por vez em toda a aplicação.
@@ -160,3 +161,4 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 - Não adicionar funcionalidades ao MVP sem revisar seu impacto no planejamento.
 - A busca de produtos é realizada pelo `produtoId` dentro da Feira.
 - A alteração de produtos é coordenada pelo `ProdutoService`, que localiza o produto e utiliza a lógica de alteração existente no domínio `Produto`.
+- Os endpoints de produtos já foram expostos via API e testados no Swagger; testes JUnit do Controller permanecem pendentes para a próxima etapa de estudo.

@@ -20,7 +20,6 @@ public class Feira {
 
     public String getNome() {
         return nome;
-
     }
 
     private void setNome(String nome) {

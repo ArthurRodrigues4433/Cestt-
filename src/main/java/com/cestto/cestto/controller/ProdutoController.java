@@ -85,7 +85,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/api/feiras/{feirasId}/produtos/{produtoId}")
-    public ResponseEntity<Produto> deletarProduto(
+    public ResponseEntity<Void> deletarProduto(
             @PathVariable Long feirasId,
             @PathVariable Long produtoId) {
 
@@ -101,6 +101,6 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
