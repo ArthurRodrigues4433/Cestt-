@@ -1,18 +1,31 @@
 package com.cestto.cestto.domain;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Feira {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nome;
     private String supermercado;
+
+    @Enumerated(EnumType.STRING)
     private StatusFeira status;
+
+    @OneToMany(mappedBy = "feira")
     private List<Produto> produtos = new ArrayList<>();
 
-    public Feira(Long id, String nome, String supermercado) {
-        this.id = id;
+    public Feira() {
+
+    }
+
+    public Feira( String nome, String supermercado) {
         this.nome = nome;
         this.supermercado = supermercado;
         this.status = StatusFeira.EM_ANDAMENTO;
@@ -74,7 +87,8 @@ public class Feira {
 
     public boolean adicionarProduto(Produto produto) {
         if (this.status == StatusFeira.EM_ANDAMENTO){
-            this.produtos.add(produto);
+           produto.setFeira(this);
+           produtos.add(produto);
             return true;
         }
 

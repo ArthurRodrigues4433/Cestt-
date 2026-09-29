@@ -66,7 +66,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 * [x] Testar exclusão de feira inexistente.
 * [x] Validar entrada de dados no controller (campos vazios/nulos).
 * [x] Retornar HTTP corretos para os fluxos implementados (200, 400, 409 e 204).
-* [ ] Implementar persistência das feiras.
+* [x] Implementar persistência das feiras.
 * [ ] Implementar a regra de uma feira ativa por usuário após a implementação de usuários e autenticação.
 
 ### Etapa 3 — Produtos e orçamento
@@ -99,12 +99,12 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 
 ### Etapa 4 — Persistência
 
-* [ ] Definir o modelo de dados.
-* [ ] Configurar JPA e o banco de dados.
-* [ ] Criar repositories.
-* [ ] Persistir e consultar feiras.
-* [ ] Persistir e consultar produtos.
-* [ ] Testar a persistência.
+* [x] Definir o modelo de dados.
+* [x] Configurar JPA e o banco de dados.
+* [x] Criar repositories.
+* [x] Persistir e consultar feiras.
+* [x] Persistir e consultar produtos.
+* [x] Testar a persistência.
 
 ### Etapa 5 — Usuários e segurança
 
@@ -143,22 +143,25 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 | 2026-09-25 | Etapa 2 — Feira | Revisão do Controller, Service, domínio, enum e DTO. Testes JUnit concluídos para criação, busca, finalização, cancelamento e exclusão. Correções de organização e tipagem realizadas. | Iniciar Etapa 3 — Produtos e orçamento. |
 | 2026-09-25 | Etapa 3 — Produtos e orçamento | Criada a classe Produto e definida sua relação com Feira. Implementadas as regras de escolha entre preço de varejo e atacado, quantidade mínima para atacado e cálculo de subtotal com BigDecimal. Implementada a adição de produtos à Feira e criados testes JUnit para inclusão, múltiplos produtos, lista inicialmente vazia e bloqueio de inclusão em feira finalizada. | Continuar a implementação das regras de produtos e orçamento. |
 | 2026-09-27 | Etapa 3 — Produtos e orçamento | Implementada a busca de produtos por ID no ProdutoService, com testes para produto existente e inexistente. Implementada a alteração de produtos pelo ProdutoService, reutilizando a busca por ID e a lógica de alteração do domínio. Criados testes JUnit para alteração de produto existente e tentativa de alteração de produto inexistente. | Implementar quantidades e preços através da API. |
-| 2026-09-28 | Etapa 3 — Produtos e orçamento | Implementa validação de alteração em feiras não EM_ANDAMENTO e remoção de produtos. Adiciona endpoints GET/DELETE para gerenciamento via API. Endpoints testados no Swagger. | Criar testes JUnit para ProdutoController. |
-| 2026-09-28 | Etapa 3 — Produtos e orçamento | Implementa cálculo do total previsto da feira com método `getTotalPrevisto()` em `Feira` e 3 testes JUnit. | Definir regras para alteração e remoção de produtos. |
-| 2026-09-29 | Etapa 3 — Produtos e orçamento | Implementado cálculo do total previsto da feira em `Feira`, regras de alteração e remoção no `ProdutoService`, e endpoints de listagem, busca e remoção no `ProdutoController`. Testes JUnit do domínio e do service cobrindo as regras. | Criar testes JUnit para o Controller quando aprender MockMvc. |
+| 2026-09-28 | Etapa 3 — Produtos e orçamento | Implementada validação de alteração em feiras não EM_ANDAMENTO e remoção de produtos. Adicionados endpoints GET/DELETE para gerenciamento via API. Endpoints testados no Swagger. | Criar testes JUnit para ProdutoController. |
+| 2026-09-28 | Etapa 3 — Produtos e orçamento | Implementado cálculo do total previsto da feira com método `getTotalPrevisto()` em `Feira` e 3 testes JUnit. | Definir regras para alteração e remoção de produtos. |
+| 2026-09-29 | Etapa 3 — Produtos e orçamento | Implementado cálculo do total previsto da feira em `Feira`, regras de alteração e remoção no `ProdutoService`, e endpoints de listagem, busca e remoção no `ProdutoController`. Testes JUnit do domínio e do service cobrindo as regras. | Concluir a revisão da Etapa 3 e iniciar a persistência. |
+| 2026-09-29 | Etapa 4 — Persistência | Configurado JPA com PostgreSQL, criados `FeiraRepository` e `ProdutoRepository`, definida a relação persistida entre Feira e Produto e implementada a persistência e consulta de feiras e produtos. Testes realizados pelo Swagger para criação, consulta e remoção de produtos persistidos. | Atualizar documentação e commitar a conclusão da Etapa 4. |
+
 ## Decisões e pendências
 
 - A regra atual permite apenas uma feira `EM_ANDAMENTO` por vez em toda a aplicação.
 - A regra definitiva será de uma feira ativa por usuário e será implementada após usuários e autenticação.
-- As feiras ainda são armazenadas em memória. A persistência será implementada posteriormente.
+- As feiras e produtos agora são persistidos no PostgreSQL utilizando JPA.
 - O domínio mantém as regras de transição de estado (`finalizar` e `cancelar`).
 - A exclusão definitiva é permitida somente para feiras `CANCELADA`.
-- Produtos pertencem a uma feira e, no momento, são mantidos em memória através da relação de domínio entre `Feira` e `Produto`.
+- Produtos pertencem a uma feira através de uma relação JPA entre `Feira` e `Produto`.
 - O produto possui preço de varejo e pode possuir preço de atacado, sendo escolhido o preço aplicável conforme a quantidade.
 - O subtotal do produto é calculado a partir do preço escolhido e da quantidade.
 - Valores monetários são representados utilizando `BigDecimal`.
-- A implementação atual de produtos ainda não possui persistência nem endpoints próprios na API.
-- Não adicionar funcionalidades ao MVP sem revisar seu impacto no planejamento.
 - A busca de produtos é realizada pelo `produtoId` dentro da Feira.
 - A alteração de produtos é coordenada pelo `ProdutoService`, que localiza o produto e utiliza a lógica de alteração existente no domínio `Produto`.
-- Os endpoints de produtos já foram expostos via API e testados no Swagger; testes JUnit do Controller permanecem pendentes para a próxima etapa de estudo.
+- Os endpoints de produtos já foram expostos via API e testados no Swagger.
+- Testes JUnit específicos do `ProdutoController` permanecem pendentes para quando o estudo de `MockMvc` for realizado.
+- A implementação atual ainda utiliza a regra temporária de uma única feira em andamento em toda a aplicação.
+- Não adicionar funcionalidades ao MVP sem revisar seu impacto no planejamento.

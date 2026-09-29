@@ -3,6 +3,7 @@ package com.cestto.cestto.service;
 import com.cestto.cestto.domain.Feira;
 import com.cestto.cestto.domain.Produto;
 import com.cestto.cestto.domain.StatusFeira;
+import com.cestto.cestto.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -11,7 +12,9 @@ import java.util.List;
 @Service
 public class ProdutoService {
 
-    private Long proximoId = 1L;
+    private final ProdutoRepository produtoRepository;
+
+    public ProdutoService(ProdutoRepository produtoRepository) {this.produtoRepository = produtoRepository;}
 
     public Produto criarProduto(
             Feira feira,
@@ -27,7 +30,6 @@ public class ProdutoService {
         }
 
         Produto novoProduto = new Produto(
-                this.proximoId,
                 nome,
                 quantidade,
                 quantidadeMinimaAtacado,
@@ -41,27 +43,17 @@ public class ProdutoService {
             return null;
         }
 
-        proximoId++;
+        produtoRepository.save(novoProduto);
         return novoProduto;
     }
 
-    public Produto buscarProduto(Feira feira, Long produtoId) {
-
-        Produto produtoEncontrado = null;
-
-        for (Produto produto : feira.getProdutos()) {
-            if (produto.getProdutoId().equals(produtoId)) {
-                produtoEncontrado = produto;
-                break;
-            }
-        }
-
-        return produtoEncontrado;
+    public Produto buscarProduto(Long produtoId, Feira feira) {
+        return produtoRepository.findByProdutoIdAndFeira(produtoId, feira).orElse(null);
     }
 
     public Produto alterarProduto(
-            Feira feira,
             Long produtoId,
+            Feira feira,
             String novoNome,
             int novaQuantidade,
             int novaQuantidadeMinimaAtacado,
@@ -73,7 +65,7 @@ public class ProdutoService {
             return null;
         }
 
-        Produto produto= buscarProduto(feira, produtoId );
+        Produto produto= buscarProduto(produtoId, feira );
         if (produto == null) {
             return null;
         }
@@ -86,21 +78,22 @@ public class ProdutoService {
                 novoPrecoVarejo
         );
 
+        produtoRepository.save(produto);
         return produto;
     }
 
-    public boolean removerProduto(Feira feira, Long produtoId) {
-        if (feira.getStatus() != StatusFeira.EM_ANDAMENTO) {
+    public boolean removerProduto(Long produtoId, Feira feira) {
+        Produto produto = buscarProduto(produtoId, feira);
+
+        if (produto == null) {
             return false;
         }
 
-        for (Produto produto : feira.getProdutos()) {
-            if (produto.getProdutoId().equals(produtoId)) {
-                feira.getProdutos().remove(produto);
-                return true;
-            }
+        if (feira.getStatus() != StatusFeira.EM_ANDAMENTO){
+            return false;
         }
 
-        return false;
+        produtoRepository.delete(produto);
+        return true;
     }
 }

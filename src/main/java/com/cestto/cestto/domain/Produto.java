@@ -1,25 +1,41 @@
 package com.cestto.cestto.domain;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
+@Entity
 public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long produtoId;
 
     private String nome;
     private int quantidade;
-    private  int quantidadeMinimaAtacado;
+    private int quantidadeMinimaAtacado;
     private BigDecimal precoAtacado;
-    private  BigDecimal precoVarejo;
-
-    private final Long produtoId;
+    private BigDecimal precoVarejo;
     private BigDecimal precoEscolhido;
     private BigDecimal subtotal;
 
-    public Produto(Long produtoId , String nome, int quantidade, int quantidadeMinimaAtacado, BigDecimal precoAtacado, BigDecimal precoVarejo) {
-        this.produtoId = produtoId;
-        this.nome =nome;
-        this.quantidade =quantidade;
-        this.quantidadeMinimaAtacado =quantidadeMinimaAtacado;
-        this.precoAtacado =precoAtacado;
-        this.precoVarejo =precoVarejo;
+    @ManyToOne
+    @JoinColumn(name = "feira_id")
+    private Feira feira;
+
+    public void setFeira(Feira feira){
+        this.feira = feira;
+    }
+
+    public Produto() {
+    }
+
+    public Produto(String nome, int quantidade, int quantidadeMinimaAtacado,
+                   BigDecimal precoAtacado, BigDecimal precoVarejo) {
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.quantidadeMinimaAtacado = quantidadeMinimaAtacado;
+        this.precoAtacado = precoAtacado;
+        this.precoVarejo = precoVarejo;
 
         escolherPreco();
         calcularSubtotal();

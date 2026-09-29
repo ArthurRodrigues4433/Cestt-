@@ -1,58 +1,50 @@
 package com.cestto.cestto.service;
 
 import com.cestto.cestto.domain.StatusFeira;
+import com.cestto.cestto.repository.FeiraRepository;
 import org.springframework.stereotype.Service;
 import com.cestto.cestto.domain.Feira;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class FeiraService {
 
-    private final List<Feira> feiras = new ArrayList<>();
+    private final FeiraRepository feiraRepository;
 
-    private Long proximoId = 1L;
+    public FeiraService(FeiraRepository feiraRepository) {
+        this.feiraRepository = feiraRepository;
+    }
 
     public Feira criarFeira(String nome, String supermercado) {
 
-        for (Feira f : feiras){
-            if (f.getStatus() == StatusFeira.EM_ANDAMENTO) {
-                return null;
-            }
+        if (feiraRepository.findByStatus(StatusFeira.EM_ANDAMENTO).isPresent()) {
+            return  null;
         }
 
-        Feira novaFeira = new Feira(this.proximoId, nome, supermercado);
+        Feira novaFeira = new Feira(nome, supermercado);
+        feiraRepository.save(novaFeira);
 
-        feiras.add(novaFeira);
-        proximoId++;
         return novaFeira;
     }
 
     public List<Feira> getFeiras() {
-        return feiras;
+        return feiraRepository.findAll();
     }
 
     public Feira getFeiraPorId(Long id) {
-        for (Feira f : feiras){
-            if (f.getId().equals(id)){
-                return f;
-            }
-        }
-
-        return null;
+        return feiraRepository.findById(id).orElse(null);
     }
 
     public Feira finalizarFeiraPorId(Long id) {
-        for (Feira f : feiras){
-            if (f.getId().equals(id)){
-                boolean finalizada = f.finalizar();
+        Feira feira = getFeiraPorId(id);
 
-                if  (finalizada){
-                    return f;
-                }
-
-                return null;
+        if (feira != null) {
+            boolean finalizada = feira.finalizar();
+            if (finalizada) {
+                feiraRepository.save(feira);
+                return feira;
             }
         }
 
@@ -60,15 +52,12 @@ public class FeiraService {
     }
 
     public Feira cancelarFeiraPorId(Long id) {
-        for (Feira f : feiras){
-            if (f.getId().equals(id)){
-                boolean cancelada = f.cancelar();
-
-                if (cancelada){
-                    return f;
-                }
-
-                return null;
+        Feira feira = getFeiraPorId(id);
+        if (feira != null) {
+            boolean cancelada = feira.cancelar();
+            if (cancelada){
+                feiraRepository.save(feira);
+                return feira;
             }
         }
 
@@ -76,15 +65,11 @@ public class FeiraService {
     }
 
     public boolean deletarFeiraPorId(Long id) {
-        for (Feira f : feiras){
-            if (f.getId().equals(id)){
-
-                if(f.getStatus() == StatusFeira.CANCELADA){
-                    feiras.remove(f);
-                    return true;
-                }
-
-                return false;
+        Feira feira = getFeiraPorId(id);
+        if (feira != null)  {
+            if (feira.getStatus() == StatusFeira.CANCELADA){
+                feiraRepository.delete(feira);
+                return true;
             }
         }
 

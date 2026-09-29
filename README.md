@@ -25,6 +25,7 @@
 - [Tecnologias](#-tecnologias)
 - [Arquitetura](#-arquitetura)
 - [Funcionalidades implementadas](#-funcionalidades-implementadas)
+- [Endpoints da API](#-endpoints-da-api)
 - [Como executar os testes](#-como-executar-os-testes)
 - [Documentação da API](#-documentação-da-api)
 - [Status do projeto](#-status-do-projeto)
@@ -82,9 +83,12 @@ As principais tecnologias utilizadas na estrutura atual do projeto são:
 | Java | Linguagem de programação |
 | Spring Boot | Estrutura da aplicação backend |
 | Spring MVC | Desenvolvimento da camada web e dos endpoints REST |
+| Spring Data JPA | Persistência e acesso aos dados |
+| PostgreSQL | Banco de dados relacional |
 | Maven | Gerenciamento de dependências e build |
 | Swagger / OpenAPI | Documentação e exploração dos endpoints da API |
 | JUnit | Testes automatizados |
+
 
 ## Arquitetura
 
@@ -96,10 +100,22 @@ Atualmente, a aplicação possui as seguintes camadas:
 - **Service:** concentra a lógica de aplicação relacionada às funcionalidades.
 - **Domain:** contém os objetos de domínio e regras de negócio.
 - **DTO:** define os objetos utilizados para transportar dados entre a API e seus clientes.
+- **Repository:** responsável pelo acesso e persistência dos dados utilizando Spring Data JPA.
 
 A arquitetura está sendo desenvolvida gradualmente, buscando separar responsabilidades, facilitar a manutenção e permitir a evolução do MVP.
 
-Camadas adicionais, como Repository e persistência de dados, serão implementadas conforme o avanço do projeto.
+Os dados de feiras e produtos já são persistidos em PostgreSQL através do JPA.
+
+
+## Configuração de ambiente
+
+Antes de executar a aplicação, configure as variáveis de ambiente utilizadas para conexão com o PostgreSQL:
+
+### .env
+- DB_URL=jdbc:postgresql://localhost:5433/cestto
+- DB_USERNAME=postgres
+- DB_PASSWORD=sua_senha
+
 
 ## Funcionalidades implementadas
 
@@ -127,7 +143,7 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 - [x] Testes automatizados com JUnit para as regras de negócio
 - [x] Tratamento dos principais códigos HTTP utilizados pelos fluxos implementados
 
-### Etapa 3 — Produtos e orçamento 🚧
+### Etapa 3 — Produtos e orçamento ✅
 
 - [x] Criar o modelo de domínio `Produto`
 - [x] Definir a relação entre `Feira` e `Produto`
@@ -146,8 +162,19 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 - [x] Implementar quantidades e preços através da API
 - [x] Calcular o total previsto da feira
 - [x] Definir as regras para alteração e remoção de produtos
-- [x] Validar entradas e regras de negócio restantes
+- [x] Validar entradas e regras de negócio
 - [x] Expor endpoints para gerenciamento dos produtos
+
+### Etapa 4 — Persistência ✅
+
+- [x] Definir o modelo de dados
+- [x] Configurar JPA e PostgreSQL
+- [x] Criar `FeiraRepository`
+- [x] Criar `ProdutoRepository`
+- [x] Persistir e consultar feiras
+- [x] Persistir e consultar produtos
+- [x] Definir a relação persistida entre `Feira` e `Produto`
+- [x] Testar a persistência pelo Swagger
 
 ## Endpoints da API
 
@@ -160,16 +187,14 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 - `PUT /api/feiras/{id}/cancelar` — cancela uma feira em andamento
 - `DELETE /api/feiras/{id}` — remove uma feira cancelada
 
-> Os endpoints relacionados aos produtos serão adicionados conforme o desenvolvimento da Etapa 3.
-
 ### Produtos
 
-- `POST /api/feiras/{feiraId}/produtos` — cria um produto em uma feira
-- `GET /api/feiras/{feiraId}/produtos` — lista todos os produtos de uma feira
-- `GET /api/feiras/{feiraId}/produtos/{produtoId}` — busca um produto por ID
-- `DELETE /api/feiras/{feiraId}/produtos/{produtoId}` — remove um produto da feira
+- `POST /api/feiras/{feirasId}/produtos` — cria um produto em uma feira
+- `GET /api/feiras/{feirasId}/produtos` — lista todos os produtos de uma feira
+- `GET /api/feiras/{feirasId}/produtos/{produtoId}` — busca um produto por ID
+- `DELETE /api/feiras/{feirasId}/produtos/{produtoId}` — remove um produto da feira
 
-> Os endpoints de produtos já estão disponíveis para criação, listagem, busca e remoção.
+> Os endpoints atualmente disponíveis podem ser explorados e testados pelo Swagger.
 
 ## Como executar os testes
 
@@ -193,7 +218,7 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 
 ## Status do projeto
 
-**Em desenvolvimento — Etapa 3 concluída.**
+**Em desenvolvimento — Etapa 4 concluída.**
 
 **Progresso:**
 
@@ -201,15 +226,17 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 - ✅ Fundamentos REST — Etapa 1
 - ✅ Gestão de feiras e regras de negócio — Etapa 2
 - ✅ Produtos e orçamento — Etapa 3
-- 🚧 Persistência — Etapa 4
-- ⏳ Usuários e segurança — Etapa 5
+- ✅ Persistência — Etapa 4
+- 🚧 Usuários e segurança — Etapa 5
 - ⏳ Conferência — Etapa 6
 - ⏳ Qualidade e entrega — Etapa 7
 
-Atualmente, o desenvolvimento está consolidando a etapa de produtos e orçamento, com regras de preço, subtotais, total previsto e endpoints de gerenciamento.
-A aplicação ainda utiliza armazenamento em memória. A persistência dos dados será implementada posteriormente.
-O desenvolvimento prioriza a compreensão das decisões técnicas, a implementação progressiva das regras de negócio e a entrega de um MVP funcional.
+Atualmente, as etapas de fundamentos REST, gestão de feiras, produtos e orçamento e persistência estão concluídas.
+
+A aplicação utiliza Spring Data JPA e PostgreSQL para persistir os dados de feiras e produtos.
+
+A próxima etapa prevista é a implementação de usuários e segurança, incluindo cadastro, autenticação, proteção dos endpoints e restrição dos dados por usuário.
 
 ## Autor
 
-**Arthur Rodrigues**
+**Arthur Rodrigues*

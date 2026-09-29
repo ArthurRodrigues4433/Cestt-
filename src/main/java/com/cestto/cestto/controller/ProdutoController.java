@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -75,7 +74,7 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
         }
 
-        Produto produto = produtoService.buscarProduto(feira, produtoId);
+        Produto produto = produtoService.buscarProduto(produtoId, feira);
 
         if (produto == null) {
             return ResponseEntity.notFound().build();
@@ -95,7 +94,7 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
         }
 
-        boolean removido = produtoService.removerProduto(feira, produtoId);
+        boolean removido = produtoService.removerProduto(produtoId, feira);
 
         if (!removido) {
             return ResponseEntity.notFound().build();
