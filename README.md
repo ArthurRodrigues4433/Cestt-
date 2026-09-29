@@ -143,11 +143,11 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 - [x] Implementar alteração de produtos
 - [x] Testar alteração de produto existente
 - [x] Testar tentativa de alteração de produto inexistente
-- [ ] Implementar quantidades e preços através da API
-- [ ] Calcular o total previsto da feira
-- [ ] Definir as regras para alteração e remoção de produtos
-- [ ] Validar entradas e regras de negócio restantes
-- [ ] Expor endpoints para gerenciamento dos produtos
+- [x] Implementar quantidades e preços através da API
+- [x] Calcular o total previsto da feira
+- [x] Definir as regras para alteração e remoção de produtos
+- [x] Validar entradas e regras de negócio restantes
+- [x] Expor endpoints para gerenciamento dos produtos
 
 ## Endpoints da API
 
@@ -161,6 +161,15 @@ Camadas adicionais, como Repository e persistência de dados, serão implementad
 - `DELETE /api/feiras/{id}` — remove uma feira cancelada
 
 > Os endpoints relacionados aos produtos serão adicionados conforme o desenvolvimento da Etapa 3.
+
+### Produtos
+
+- `POST /api/feiras/{feiraId}/produtos` — cria um produto em uma feira
+- `GET /api/feiras/{feiraId}/produtos` — lista todos os produtos de uma feira
+- `GET /api/feiras/{feiraId}/produtos/{produtoId}` — busca um produto por ID
+- `DELETE /api/feiras/{feiraId}/produtos/{produtoId}` — remove um produto da feira
+
+> Os endpoints de produtos já estão disponíveis para criação, listagem, busca e remoção.
 
 ## Como executar os testes
 
@@ -184,23 +193,21 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 
 ## Status do projeto
 
-**Em desenvolvimento — Etapa 3 em andamento.**
+**Em desenvolvimento — Etapa 3 concluída.**
 
 **Progresso:**
 
 - ✅ Preparação e estrutura inicial
 - ✅ Fundamentos REST — Etapa 1
 - ✅ Gestão de feiras e regras de negócio — Etapa 2
-- 🚧 Produtos e orçamento — Etapa 3
-- ⏳ Persistência — Etapa 4
+- ✅ Produtos e orçamento — Etapa 3
+- 🚧 Persistência — Etapa 4
 - ⏳ Usuários e segurança — Etapa 5
 - ⏳ Conferência — Etapa 6
 - ⏳ Qualidade e entrega — Etapa 7
 
-Atualmente, o desenvolvimento está concentrado no domínio de produtos, nas regras de preço, no cálculo de subtotais e na relação entre produtos e feiras.
-
+Atualmente, o desenvolvimento está consolidando a etapa de produtos e orçamento, com regras de preço, subtotais, total previsto e endpoints de gerenciamento.
 A aplicação ainda utiliza armazenamento em memória. A persistência dos dados será implementada posteriormente.
-
 O desenvolvimento prioriza a compreensão das decisões técnicas, a implementação progressiva das regras de negócio e a entrega de um MVP funcional.
 
 ## Autor
