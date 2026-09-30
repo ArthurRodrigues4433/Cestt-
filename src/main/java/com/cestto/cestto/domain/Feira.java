@@ -8,6 +8,11 @@ import java.util.List;
 
 @Entity
 public class Feira {
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +25,10 @@ public class Feira {
 
     @OneToMany(mappedBy = "feira")
     private List<Produto> produtos = new ArrayList<>();
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public Feira() {
 

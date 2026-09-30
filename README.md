@@ -24,6 +24,7 @@
 - [Escopo da aplicação](#-escopo-da-aplicação)
 - [Tecnologias](#-tecnologias)
 - [Arquitetura](#-arquitetura)
+- [Configuração de ambiente](#-configuração-de-ambiente)
 - [Funcionalidades implementadas](#-funcionalidades-implementadas)
 - [Endpoints da API](#-endpoints-da-api)
 - [Como executar os testes](#-como-executar-os-testes)
@@ -39,9 +40,9 @@ O **Cesttô API** é o backend de uma aplicação voltada ao planejamento e à c
 
 A proposta é permitir que o usuário organize sua lista de compras, registre quantidades e preços, acompanhe o orçamento previsto e, posteriormente, compare essas informações com os valores cobrados na compra realizada.
 
-A API será responsável por disponibilizar os recursos da aplicação, aplicar as regras de negócio e gerenciar os dados necessários para o funcionamento do sistema.
+A API é responsável por disponibilizar os recursos da aplicação, aplicar as regras de negócio e gerenciar os dados necessários para o funcionamento do sistema.
 
-Este projeto também faz parte da minha jornada de aprendizado em desenvolvimento backend com Java e Spring Boot, com foco na construção de uma aplicação organizada e evolutiva.
+Este projeto também faz parte da minha jornada de aprendizado em desenvolvimento backend com Java e Spring Boot, com foco na construção de uma aplicação organizada, evolutiva e baseada em boas práticas de desenvolvimento.
 
 ## O problema
 
@@ -58,6 +59,9 @@ O Cesttô surge como uma proposta para facilitar esse processo, centralizando o 
 - Calcular o valor estimado da compra.
 - Comparar o planejamento com os valores efetivamente cobrados.
 - Identificar diferenças entre os valores previstos e realizados.
+- Permitir o cadastro de usuários.
+- Implementar autenticação e segurança de acesso.
+- Restringir os dados de acordo com o usuário autenticado.
 - Desenvolver uma API com responsabilidades bem definidas e regras de negócio organizadas.
 
 ## Escopo da aplicação
@@ -66,6 +70,7 @@ A API está sendo construída gradualmente, com foco inicial em um MVP funcional
 
 Entre as funcionalidades previstas para a aplicação estão:
 
+- Cadastro e autenticação de usuários.
 - Gerenciamento de feiras e listas de compras.
 - Cadastro e gerenciamento dos produtos planejados.
 - Cálculo de totais e valores previstos.
@@ -73,6 +78,8 @@ Entre as funcionalidades previstas para a aplicação estão:
 - Consulta ao histórico de compras.
 
 > **Observação:** os itens acima representam o escopo planejado. A implementação de cada funcionalidade será documentada conforme seu desenvolvimento.
+
+---
 
 ## Tecnologias
 
@@ -84,11 +91,14 @@ As principais tecnologias utilizadas na estrutura atual do projeto são:
 | Spring Boot | Estrutura da aplicação backend |
 | Spring MVC | Desenvolvimento da camada web e dos endpoints REST |
 | Spring Data JPA | Persistência e acesso aos dados |
+| Spring Security | Segurança e controle de acesso |
+| BCrypt | Hash das senhas dos usuários |
 | PostgreSQL | Banco de dados relacional |
 | Maven | Gerenciamento de dependências e build |
 | Swagger / OpenAPI | Documentação e exploração dos endpoints da API |
 | JUnit | Testes automatizados |
 
+---
 
 ## Arquitetura
 
@@ -101,21 +111,29 @@ Atualmente, a aplicação possui as seguintes camadas:
 - **Domain:** contém os objetos de domínio e regras de negócio.
 - **DTO:** define os objetos utilizados para transportar dados entre a API e seus clientes.
 - **Repository:** responsável pelo acesso e persistência dos dados utilizando Spring Data JPA.
+- **Config:** contém configurações da aplicação, incluindo a configuração do Spring Security.
 
 A arquitetura está sendo desenvolvida gradualmente, buscando separar responsabilidades, facilitar a manutenção e permitir a evolução do MVP.
 
-Os dados de feiras e produtos já são persistidos em PostgreSQL através do JPA.
+Os dados de **usuários, feiras e produtos** já são persistidos em PostgreSQL através do JPA.
 
+---
 
 ## Configuração de ambiente
 
 Antes de executar a aplicação, configure as variáveis de ambiente utilizadas para conexão com o PostgreSQL:
 
-### .env
-- DB_URL=jdbc:postgresql://localhost:5433/cestto
-- DB_USERNAME=postgres
-- DB_PASSWORD=sua_senha
+### Variáveis de ambiente
 
+```text
+DB_URL=jdbc:postgresql://localhost:5433/cestto
+DB_USERNAME=postgres
+DB_PASSWORD=sua_senha
+```
+
+> A senha do banco não deve ser versionada no repositório.
+
+---
 
 ## Funcionalidades implementadas
 
@@ -171,12 +189,47 @@ Antes de executar a aplicação, configure as variáveis de ambiente utilizadas 
 - [x] Configurar JPA e PostgreSQL
 - [x] Criar `FeiraRepository`
 - [x] Criar `ProdutoRepository`
+- [x] Criar `UsuarioRepository`
 - [x] Persistir e consultar feiras
 - [x] Persistir e consultar produtos
+- [x] Persistir e consultar usuários
 - [x] Definir a relação persistida entre `Feira` e `Produto`
+- [x] Definir a relação entre `Usuario` e `Feira`
 - [x] Testar a persistência pelo Swagger
 
+### Etapa 5 — Usuários e segurança 🚧
+
+- [x] Criar modelo de domínio `Usuario`
+- [x] Definir campos de usuário
+- [x] Definir email como único
+- [x] Criar `UsuarioRepository`
+- [x] Implementar busca de usuário por email
+- [x] Criar `UsuarioService`
+- [x] Implementar cadastro de usuário
+- [x] Verificar se o email já está cadastrado
+- [x] Implementar hash das senhas com BCrypt
+- [x] Criar `UsuarioRequest`
+- [x] Criar `UsuarioResponse`
+- [x] Evitar o retorno da senha na resposta da API
+- [x] Configurar Spring Security
+- [x] Configurar acesso público ao cadastro de usuários
+- [x] Configurar acesso público ao Swagger
+- [x] Configurar autenticação para os demais endpoints
+- [ ] Implementar autenticação/login
+- [ ] Definir mecanismo de autenticação
+- [ ] Proteger os endpoints com autenticação funcional
+- [ ] Associar as operações ao usuário autenticado
+- [ ] Restringir o acesso às feiras de acordo com o usuário
+- [ ] Implementar regra de uma feira em andamento por usuário
+- [ ] Testar acesso autorizado e não autorizado
+
+---
+
 ## Endpoints da API
+
+### Usuários
+
+- `POST /api/usuarios` — realiza o cadastro de um novo usuário
 
 ### Feiras
 
@@ -196,6 +249,8 @@ Antes de executar a aplicação, configure as variáveis de ambiente utilizadas 
 
 > Os endpoints atualmente disponíveis podem ser explorados e testados pelo Swagger.
 
+---
+
 ## Como executar os testes
 
 Execute o comando:
@@ -206,21 +261,27 @@ mvn test
 
 Ou, pela IDE, clique com o botão direito no arquivo ou classe de teste e selecione **Run**.
 
+---
+
 ## Documentação da API
 
 A documentação interativa é disponibilizada por meio do Swagger UI durante a execução local da aplicação.
 
 **Endereço local:**
 
+```text
 http://localhost:8080/swagger-ui/index.html
+```
 
 A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 
+---
+
 ## Status do projeto
 
-**Em desenvolvimento — Etapa 4 concluída.**
+**Em desenvolvimento — Etapa 4 concluída e Etapa 5 em andamento.**
 
-**Progresso:**
+### Progresso
 
 - ✅ Preparação e estrutura inicial
 - ✅ Fundamentos REST — Etapa 1
@@ -233,10 +294,12 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 
 Atualmente, as etapas de fundamentos REST, gestão de feiras, produtos e orçamento e persistência estão concluídas.
 
-A aplicação utiliza Spring Data JPA e PostgreSQL para persistir os dados de feiras e produtos.
+A implementação da Etapa 5 já possui cadastro de usuários, persistência, validação básica, hash de senhas com BCrypt e configuração inicial do Spring Security.
 
-A próxima etapa prevista é a implementação de usuários e segurança, incluindo cadastro, autenticação, proteção dos endpoints e restrição dos dados por usuário.
+O próximo passo da etapa é implementar a **autenticação**, seguida pela proteção efetiva dos recursos e pela restrição dos dados de acordo com o usuário autenticado.
+
+---
 
 ## Autor
 
-**Arthur Rodrigues*
+**Arthur Rodrigues**
