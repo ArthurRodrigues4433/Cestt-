@@ -67,7 +67,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 - [x] Validar entrada de dados no controller (campos vazios/nulos).
 - [x] Retornar HTTP corretos para os fluxos implementados (200, 400, 409 e 204).
 - [x] Implementar persistência das feiras.
-- [ ] Implementar a regra de uma feira ativa por usuário após a implementação da autenticação.
+- [x] Implementar a regra de uma feira ativa por usuário após a implementação da autenticação.
 
 ### Etapa 3 — Produtos e orçamento
 
@@ -125,13 +125,13 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 - [x] Liberar o endpoint de cadastro.
 - [x] Liberar o Swagger para desenvolvimento.
 - [x] Configurar os demais endpoints para exigir autenticação.
-- [ ] Implementar autenticação/login.
-- [ ] Definir e implementar o mecanismo de autenticação.
-- [ ] Proteger efetivamente os endpoints com autenticação funcional.
-- [ ] Associar as feiras ao usuário autenticado.
-- [ ] Restringir os dados de acordo com o usuário autenticado.
-- [ ] Implementar a regra de uma feira ativa por usuário.
-- [ ] Testar acesso autorizado e não autorizado.
+- [x] Implementar autenticação/login.
+- [x] Definir e implementar o mecanismo de autenticação.
+- [x] Proteger efetivamente os endpoints com autenticação funcional.
+- [x] Associar as feiras ao usuário autenticado.
+- [x] Restringir os dados de acordo com o usuário autenticado.
+- [x] Implementar a regra de uma feira ativa por usuário.
+- [x] Testar acesso autorizado e não autorizado.
 
 ### Etapa 6 — Conferência
 
@@ -166,26 +166,40 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 | 2026-09-29 | Etapa 3 — Produtos e orçamento | Implementado cálculo do total previsto da feira em `Feira`, regras de alteração e remoção no `ProdutoService`, e endpoints de listagem, busca e remoção no `ProdutoController`. Testes JUnit do domínio e do service cobrindo as regras. | Concluir a revisão da Etapa 3 e iniciar a persistência. |
 | 2026-09-29 | Etapa 4 — Persistência | Configurado JPA com PostgreSQL, criados `FeiraRepository` e `ProdutoRepository`, definida a relação persistida entre Feira e Produto e implementada a persistência e consulta de feiras e produtos. Testes realizados pelo Swagger para criação, consulta e remoção de produtos persistidos. | Iniciar usuários e segurança. |
 | 2026-09-30 | Etapa 5 — Usuários e segurança | Criado o modelo `Usuario` com nome, email, senha e data de nascimento. Criados `UsuarioRepository`, `UsuarioService`, `UsuarioRequest` e `UsuarioResponse`. Implementado cadastro com validação de email existente e hash de senha com BCrypt. Usuários passaram a ser persistidos no PostgreSQL. Configurado o Spring Security com acesso público ao cadastro e ao Swagger, mantendo os demais endpoints configurados para exigir autenticação. | Implementar autenticação/login e definir o mecanismo de autenticação. |
+| 2026-10-01 | Etapa 5 — Usuários e segurança | Implementada autenticação com login e geração de JWT. Criados `AuthRequest`, `AuthService`, `JwtService`, `JwtAuthenticationFilter`, `UserDetailsService` e `UserPrincipal`. O JWT passou a ser validado pelo filtro e o usuário autenticado é disponibilizado no `SecurityContextHolder`. | Associar e restringir as operações de feira ao usuário autenticado. |
+| 2026-10-01 | Etapa 5 — Usuários e segurança | Implementado o controle de acesso por usuário nas operações de feira e produtos. As consultas de feira passaram a considerar o `userId` autenticado, impedindo o acesso de um usuário aos dados de outro. A criação de produtos também passou a validar a propriedade da feira. | Implementar e testar a regra de uma feira ativa por usuário. |
+| 2026-10-02 | Etapa 5 — Usuários e segurança | Implementada a regra de uma única feira `EM_ANDAMENTO` por usuário. Um usuário não consegue criar uma nova feira enquanto possuir outra feira ativa. | Testar os fluxos de acesso autorizado e não autorizado e revisar a etapa de segurança. |
+| 2026-10-02 | Etapa 5 — Usuários e segurança | Testados no Swagger os fluxos autenticados e não autenticados, incluindo acesso autorizado aos próprios dados e bloqueio de acesso aos dados pertencentes a outro usuário. | Concluir a revisão da Etapa 5 e avançar para a etapa de conferência. |
+| 2026-10-10 | Etapa 5 — Usuários e segurança | Revisão da autenticação JWT, autorização por usuário e regras de acesso. Testes automatizados executados com sucesso, totalizando 49 testes aprovados. | Iniciar a Etapa 6 — Conferência. |
 
 ## Decisões e pendências
 
-- A regra atual permite apenas uma feira `EM_ANDAMENTO` por vez em toda a aplicação.
-- A regra definitiva será de uma feira ativa por usuário e será implementada após a autenticação.
+- A autenticação utiliza JWT.
+- O login gera um JWT que é enviado pelo cliente nas requisições autenticadas.
+- O `JwtAuthenticationFilter` valida o token e identifica o usuário autenticado.
+- O usuário autenticado é disponibilizado através do `SecurityContextHolder`.
+- `UserPrincipal` representa o usuário autenticado durante a requisição.
+- O cadastro de usuários utiliza `BCryptPasswordEncoder` para armazenar somente o hash da senha.
+- `UsuarioResponse` não expõe a senha do usuário na resposta da API.
+- O Spring Security protege os endpoints que exigem autenticação.
+- O cadastro de usuário e o Swagger permanecem liberados para desenvolvimento.
+- As operações de feira utilizam o ID do usuário autenticado para restringir o acesso aos dados.
+- Um usuário não consegue acessar ou manipular uma feira pertencente a outro usuário.
+- A regra de uma feira ativa por usuário já foi implementada.
+- Um usuário não pode criar uma nova feira enquanto possuir uma feira `EM_ANDAMENTO`.
 - As feiras e produtos são persistidos no PostgreSQL utilizando JPA.
 - Usuários também são persistidos no PostgreSQL utilizando JPA.
 - O domínio mantém as regras de transição de estado (`finalizar` e `cancelar`).
 - A exclusão definitiva é permitida somente para feiras `CANCELADA`.
 - Produtos pertencem a uma feira através de uma relação JPA entre `Feira` e `Produto`.
-- Feiras possuem uma relação com `Usuario`, que será utilizada para restringir os dados por usuário após a autenticação.
 - O produto possui preço de varejo e pode possuir preço de atacado, sendo escolhido o preço aplicável conforme a quantidade.
 - O subtotal do produto é calculado a partir do preço escolhido e da quantidade.
 - Valores monetários são representados utilizando `BigDecimal`.
 - A busca de produtos é realizada pelo `produtoId` dentro da Feira.
 - A alteração de produtos é coordenada pelo `ProdutoService`, que localiza o produto e utiliza a lógica de alteração existente no domínio `Produto`.
 - Os endpoints de produtos já foram expostos via API e testados no Swagger.
+- Os testes automatizados atuais estão passando, totalizando 49 testes aprovados.
 - Testes JUnit específicos do `ProdutoController` permanecem pendentes para quando o estudo de `MockMvc` for realizado.
-- O cadastro de usuários utiliza `BCryptPasswordEncoder` para armazenar somente o hash da senha.
-- `UsuarioResponse` não expõe a senha do usuário na resposta da API.
-- O Spring Security está configurado para liberar o cadastro e o Swagger durante o desenvolvimento.
-- A autenticação ainda não foi implementada; a exigência de autenticação dos demais endpoints está configurada, mas o fluxo de login ainda está pendente.
+- A Etapa 5 — Usuários e segurança está funcional e a autenticação JWT já foi implementada.
+- A próxima etapa do projeto é a Etapa 6 — Conferência.
 - Não adicionar funcionalidades ao MVP sem revisar seu impacto no planejamento.

@@ -1,3 +1,4 @@
+
 package com.cestto.cestto.domain;
 
 import org.junit.jupiter.api.Test;
@@ -6,77 +7,67 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FeiraTest
-{
+public class FeiraTest {
+
     @Test
-    void deveAdicionarProdutoNaFeira(){
-        Feira feira = new Feira(
-                1L,
-                "Feira do mês",
-                "Assai"
-        );
+    void deveAdicionarProdutoNaFeira() {
+        Feira feira = new Feira("Feira do mês", "Assai");
 
         Produto produto = new Produto(
-                1L,
                 "arroz",
                 6,
                 4,
                 new BigDecimal("25.00"),
-                new BigDecimal("30.00"));
+                new BigDecimal("30.00")
+        );
 
-        feira.adicionarProduto(produto);
+        boolean resultado = feira.adicionarProduto(produto);
 
+        assertTrue(resultado);
         assertTrue(feira.getProdutos().contains(produto));
     }
 
     @Test
     void deveAdicionarDoisProdutosNaFeira() {
-
-        Feira feira = new Feira(
-                1L,
-                "Feira do mês",
-                "Assai"
-        );
+        Feira feira = new Feira("Feira do mês", "Assai");
 
         Produto produto = new Produto(
-                1L,
                 "arroz",
                 6,
                 4,
                 new BigDecimal("25.00"),
-                new BigDecimal("30.00"));
+                new BigDecimal("30.00")
+        );
 
         Produto produto2 = new Produto(
-                1L,
                 "feijão",
                 2,
                 4,
                 new BigDecimal("25.00"),
-                new BigDecimal("30.00"));
+                new BigDecimal("30.00")
+        );
 
-        feira.adicionarProduto(produto);
-        feira.adicionarProduto(produto2);
+        boolean resultado1 = feira.adicionarProduto(produto);
+        boolean resultado2 = feira.adicionarProduto(produto2);
 
+        assertTrue(resultado1);
+        assertTrue(resultado2);
         assertEquals(2, feira.getProdutos().size());
     }
 
     @Test
     void naoDeveAdicionarProdutoEmFeiraFinalizada() {
-        Feira feira = new Feira(
-                1L,
-                "Feira do mês",
-                "Assai"
-        );
+        Feira feira = new Feira("Feira do mês", "Assai");
 
         feira.finalizar();
 
         Produto produto = new Produto(
-                1L,
                 "arroz",
                 6,
                 4,
                 new BigDecimal("25.00"),
-                new BigDecimal("30.00"));
+                new BigDecimal("30.00")
+        );
 
         boolean resultado = feira.adicionarProduto(produto);
 
@@ -85,29 +76,24 @@ public class FeiraTest
     }
 
     @Test
-        void deveCancelarFeira(){
-
-        Feira feira = new Feira(1L, "feira mes", "Mix mateus");
+    void deveCancelarFeira() {
+        Feira feira = new Feira("Feira do mês", "Mix Mateus");
 
         boolean resultado = feira.cancelar();
+
         assertTrue(resultado);
         assertEquals(StatusFeira.CANCELADA, feira.getStatus());
 
         boolean resultado2 = feira.cancelar();
+
         assertFalse(resultado2);
     }
 
-
     @Test
     void deveSubtotalDosProdutos() {
-        Feira feira = new Feira(
-                1L,
-                "Feira do mês",
-                "Assai"
-        );
+        Feira feira = new Feira("Feira do mês", "Assai");
 
         Produto produto = new Produto(
-                1L,
                 "feijao",
                 6,
                 4,
@@ -116,7 +102,6 @@ public class FeiraTest
         );
 
         Produto produto2 = new Produto(
-                1L,
                 "macarrao",
                 6,
                 4,
@@ -125,7 +110,6 @@ public class FeiraTest
         );
 
         Produto produto3 = new Produto(
-                1L,
                 "macarrao",
                 6,
                 4,
@@ -140,28 +124,18 @@ public class FeiraTest
         assertEquals(new BigDecimal("1512.00"), feira.getTotalPrevisto());
     }
 
-
     @Test
-    void deveRetornarBigDecimalZeroFeirasSemProdutos() {
-        Feira feira = new Feira(
-                1L,
-                "Feira do mês",
-                "Assai"
-        );
+    void deveRetornarBigDecimalZeroFeiraSemProdutos() {
+        Feira feira = new Feira("Feira do mês", "Assai");
 
-        assertEquals(new BigDecimal("0"), feira.getTotalPrevisto());
+        assertEquals(BigDecimal.ZERO, feira.getTotalPrevisto());
     }
 
     @Test
     void deveCalcularSubtotalDeUmItem() {
-        Feira feira = new Feira(
-                1L,
-                "Feira do mês",
-                "Assai"
-        );
+        Feira feira = new Feira("Feira do mês", "Assai");
 
         Produto produto = new Produto(
-                1L,
                 "feijao",
                 2,
                 4,

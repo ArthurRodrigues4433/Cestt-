@@ -215,13 +215,13 @@ DB_PASSWORD=sua_senha
 - [x] Configurar acesso público ao cadastro de usuários
 - [x] Configurar acesso público ao Swagger
 - [x] Configurar autenticação para os demais endpoints
-- [ ] Implementar autenticação/login
-- [ ] Definir mecanismo de autenticação
-- [ ] Proteger os endpoints com autenticação funcional
-- [ ] Associar as operações ao usuário autenticado
-- [ ] Restringir o acesso às feiras de acordo com o usuário
-- [ ] Implementar regra de uma feira em andamento por usuário
-- [ ] Testar acesso autorizado e não autorizado
+- [x] Implementar autenticação/login
+- [x] Definir mecanismo de autenticação
+- [x] Proteger os endpoints com autenticação funcional
+- [x] Associar as operações ao usuário autenticado
+- [x] Restringir o acesso às feiras de acordo com o usuário
+- [x] Implementar regra de uma feira em andamento por usuário
+- [x] Testar acesso autorizado e não autorizado
 
 ---
 
@@ -230,6 +230,7 @@ DB_PASSWORD=sua_senha
 ### Usuários
 
 - `POST /api/usuarios` — realiza o cadastro de um novo usuário
+- `POST /api/auth/login` — autentica o usuário e retorna um JWT
 
 ### Feiras
 
@@ -279,7 +280,7 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 
 ## Status do projeto
 
-**Em desenvolvimento — Etapa 4 concluída e Etapa 5 em andamento.**
+**Em desenvolvimento — Etapa 5 concluída e Etapa 6 em andamento.**
 
 ### Progresso
 
@@ -288,8 +289,8 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 - ✅ Gestão de feiras e regras de negócio — Etapa 2
 - ✅ Produtos e orçamento — Etapa 3
 - ✅ Persistência — Etapa 4
-- 🚧 Usuários e segurança — Etapa 5
-- ⏳ Conferência — Etapa 6
+- ✅ Usuários e segurança — Etapa 5
+- 🚧 Conferência — Etapa 6
 - ⏳ Qualidade e entrega — Etapa 7
 
 Atualmente, as etapas de fundamentos REST, gestão de feiras, produtos e orçamento e persistência estão concluídas.

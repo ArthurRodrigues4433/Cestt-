@@ -7,7 +7,6 @@ import com.cestto.cestto.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 public class ProdutoService {
