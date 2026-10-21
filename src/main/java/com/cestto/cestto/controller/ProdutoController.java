@@ -51,6 +51,7 @@ public class ProdutoController {
 
         Produto produto = produtoService.criarProduto(
                 feira,
+                produtoRequest.getCodigoProduto(),
                 produtoRequest.getNome(),
                 produtoRequest.getQuantidade(),
                 produtoRequest.getQuantidadeMinimaAtacado(),

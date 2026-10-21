@@ -27,6 +27,7 @@
 - [Configuração de ambiente](#-configuração-de-ambiente)
 - [Funcionalidades implementadas](#-funcionalidades-implementadas)
 - [Endpoints da API](#-endpoints-da-api)
+- [Conferência de compras](#-conferência-de-compras)
 - [Como executar os testes](#-como-executar-os-testes)
 - [Documentação da API](#-documentação-da-api)
 - [Status do projeto](#-status-do-projeto)
@@ -42,7 +43,7 @@ A proposta é permitir que o usuário organize sua lista de compras, registre qu
 
 A API é responsável por disponibilizar os recursos da aplicação, aplicar as regras de negócio e gerenciar os dados necessários para o funcionamento do sistema.
 
-Este projeto também faz parte da minha jornada de aprendizado em desenvolvimento backend com Java e Spring Boot, com foco na construção de uma aplicação organizada, evolutiva e baseada em boas práticas de desenvolvimento.
+Este projeto também faz parte da minha jornada de aprendizado em desenvolvimento backend com **Java e Spring Boot**, com foco na construção de uma aplicação organizada, evolutiva e baseada em boas práticas de desenvolvimento.
 
 ## O problema
 
@@ -58,7 +59,9 @@ O Cesttô surge como uma proposta para facilitar esse processo, centralizando o 
 - Registrar produtos, quantidades e preços previstos.
 - Calcular o valor estimado da compra.
 - Comparar o planejamento com os valores efetivamente cobrados.
-- Identificar diferenças entre os valores previstos e realizados.
+- Identificar diferenças de preço e quantidade.
+- Identificar produtos planejados que não apareceram na nota.
+- Identificar produtos presentes na nota que não foram planejados.
 - Permitir o cadastro de usuários.
 - Implementar autenticação e segurança de acesso.
 - Restringir os dados de acordo com o usuário autenticado.
@@ -75,7 +78,9 @@ Entre as funcionalidades previstas para a aplicação estão:
 - Cadastro e gerenciamento dos produtos planejados.
 - Cálculo de totais e valores previstos.
 - Conferência dos valores da compra realizada.
+- Identificação de divergências entre planejamento e compra.
 - Consulta ao histórico de compras.
+- Integração futura com NFC-e.
 
 > **Observação:** os itens acima representam o escopo planejado. A implementação de cada funcionalidade será documentada conforme seu desenvolvimento.
 
@@ -92,11 +97,13 @@ As principais tecnologias utilizadas na estrutura atual do projeto são:
 | Spring MVC | Desenvolvimento da camada web e dos endpoints REST |
 | Spring Data JPA | Persistência e acesso aos dados |
 | Spring Security | Segurança e controle de acesso |
+| JWT | Autenticação baseada em token |
 | BCrypt | Hash das senhas dos usuários |
 | PostgreSQL | Banco de dados relacional |
 | Maven | Gerenciamento de dependências e build |
 | Swagger / OpenAPI | Documentação e exploração dos endpoints da API |
 | JUnit | Testes automatizados |
+| Mockito | Criação de mocks nos testes unitários |
 
 ---
 
@@ -144,6 +151,7 @@ DB_PASSWORD=sua_senha
 - [x] Endpoint POST `/api/feiras` com `@RequestBody`
 - [x] Recebimento e processamento de JSON
 - [x] Criação e utilização do DTO `FeiraRequest`
+- [x] Compreensão do fluxo de requisição e resposta HTTP
 
 ### Etapa 2 — Feira ✅
 
@@ -156,7 +164,7 @@ DB_PASSWORD=sua_senha
 - [x] Finalização de feira
 - [x] Cancelamento de feira
 - [x] Exclusão de feira cancelada
-- [x] Regra temporária de apenas uma feira em andamento por vez
+- [x] Regra de uma feira em andamento por vez
 - [x] Validação de nome e supermercado
 - [x] Testes automatizados com JUnit para as regras de negócio
 - [x] Tratamento dos principais códigos HTTP utilizados pelos fluxos implementados
@@ -179,7 +187,7 @@ DB_PASSWORD=sua_senha
 - [x] Testar tentativa de alteração de produto inexistente
 - [x] Implementar quantidades e preços através da API
 - [x] Calcular o total previsto da feira
-- [x] Definir as regras para alteração e remoção de produtos
+- [x] Definir regras para alteração e remoção de produtos
 - [x] Validar entradas e regras de negócio
 - [x] Expor endpoints para gerenciamento dos produtos
 
@@ -190,14 +198,16 @@ DB_PASSWORD=sua_senha
 - [x] Criar `FeiraRepository`
 - [x] Criar `ProdutoRepository`
 - [x] Criar `UsuarioRepository`
+- [x] Criar `ItemConferenciaRepository`
 - [x] Persistir e consultar feiras
 - [x] Persistir e consultar produtos
 - [x] Persistir e consultar usuários
+- [x] Persistir itens de conferência
 - [x] Definir a relação persistida entre `Feira` e `Produto`
 - [x] Definir a relação entre `Usuario` e `Feira`
 - [x] Testar a persistência pelo Swagger
 
-### Etapa 5 — Usuários e segurança 🚧
+### Etapa 5 — Usuários e segurança ✅
 
 - [x] Criar modelo de domínio `Usuario`
 - [x] Definir campos de usuário
@@ -216,12 +226,83 @@ DB_PASSWORD=sua_senha
 - [x] Configurar acesso público ao Swagger
 - [x] Configurar autenticação para os demais endpoints
 - [x] Implementar autenticação/login
-- [x] Definir mecanismo de autenticação
-- [x] Proteger os endpoints com autenticação funcional
+- [x] Implementar geração de JWT
+- [x] Implementar validação do JWT
+- [x] Disponibilizar o usuário autenticado no `SecurityContextHolder`
+- [x] Proteger os endpoints com autenticação
 - [x] Associar as operações ao usuário autenticado
 - [x] Restringir o acesso às feiras de acordo com o usuário
 - [x] Implementar regra de uma feira em andamento por usuário
 - [x] Testar acesso autorizado e não autorizado
+
+### Etapa 6 — Conferência 🚧
+
+- [x] Definir o modelo `ItemConferencia`
+- [x] Definir os estados da conferência
+- [x] Criar `StatusConferencia`
+- [x] Criar `ItemNotaDTO`
+- [x] Criar `ItemConferenciaRepository`
+- [x] Buscar os produtos planejados da feira
+- [x] Comparar produtos planejados com os produtos da nota
+- [x] Identificar produtos ausentes na nota
+- [x] Identificar produtos presentes na nota, mas não planejados
+- [x] Comparar preço planejado com preço cobrado
+- [x] Comparar quantidade planejada com quantidade cobrada
+- [x] Marcar item como `CONFERIDO` quando preço e quantidade forem iguais
+- [x] Marcar item como `DIVERGENTE` quando houver diferença
+- [x] Marcar item como `AUSENTE_NA_NOTA` quando o produto planejado não estiver na nota
+- [x] Marcar item como `NAO_PLANEJADO` quando o produto estiver na nota, mas não na feira
+- [x] Persistir os itens da conferência
+- [x] Criar testes automatizados para os cenários de conferência
+
+---
+
+## Conferência de compras
+
+A conferência compara os produtos planejados na feira com os itens encontrados na nota fiscal.
+
+Para cada produto planejado, a API verifica se o produto está presente na nota e compara:
+
+- **Quantidade planejada x quantidade cobrada**
+- **Preço planejado x preço unitário cobrado**
+
+O resultado é classificado conforme a situação encontrada.
+
+| Status | Significado |
+|---|---|
+| `CONFERIDO` | Produto encontrado e quantidade e preço estão de acordo com o planejamento |
+| `DIVERGENTE` | Produto encontrado, mas quantidade ou preço apresenta diferença |
+| `AUSENTE_NA_NOTA` | Produto foi planejado, mas não foi encontrado na nota |
+| `NAO_PLANEJADO` | Produto aparece na nota, mas não fazia parte da feira |
+
+Exemplo de fluxo:
+
+```text
+Produtos planejados
+       │
+       ▼
+Produtos da nota
+       │
+       ▼
+Comparação por código do produto
+       │
+       ├── Não encontrado
+       │      └── AUSENTE_NA_NOTA
+       │
+       └── Encontrado
+              │
+              ├── Preço e quantidade iguais
+              │      └── CONFERIDO
+              │
+              └── Preço ou quantidade diferente
+                     └── DIVERGENTE
+
+Itens restantes da nota
+       │
+       └── NAO_PLANEJADO
+```
+
+A integração com NFC-e ainda faz parte do planejamento futuro da etapa.
 
 ---
 
@@ -235,7 +316,7 @@ DB_PASSWORD=sua_senha
 ### Feiras
 
 - `POST /api/feiras` — cria uma nova feira
-- `GET /api/feiras` — lista todas as feiras
+- `GET /api/feiras` — lista as feiras do usuário autenticado
 - `GET /api/feiras/{id}` — busca uma feira por ID
 - `PUT /api/feiras/{id}/finalizar` — finaliza uma feira em andamento
 - `PUT /api/feiras/{id}/cancelar` — cancela uma feira em andamento
@@ -243,10 +324,10 @@ DB_PASSWORD=sua_senha
 
 ### Produtos
 
-- `POST /api/feiras/{feirasId}/produtos` — cria um produto em uma feira
-- `GET /api/feiras/{feirasId}/produtos` — lista todos os produtos de uma feira
-- `GET /api/feiras/{feirasId}/produtos/{produtoId}` — busca um produto por ID
-- `DELETE /api/feiras/{feirasId}/produtos/{produtoId}` — remove um produto da feira
+- `POST /api/feiras/{feiraId}/produtos` — cria um produto em uma feira
+- `GET /api/feiras/{feiraId}/produtos` — lista os produtos de uma feira
+- `GET /api/feiras/{feiraId}/produtos/{produtoId}` — busca um produto por ID
+- `DELETE /api/feiras/{feiraId}/produtos/{produtoId}` — remove um produto da feira
 
 > Os endpoints atualmente disponíveis podem ser explorados e testados pelo Swagger.
 
@@ -261,6 +342,8 @@ mvn test
 ```
 
 Ou, pela IDE, clique com o botão direito no arquivo ou classe de teste e selecione **Run**.
+
+Os testes automatizados utilizam **JUnit** e **Mockito** para validar regras de negócio e comportamentos dos serviços.
 
 ---
 
@@ -280,7 +363,7 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 
 ## Status do projeto
 
-**Em desenvolvimento — Etapa 5 concluída e Etapa 6 em andamento.**
+**Em desenvolvimento — Etapas 1 a 5 concluídas e Etapa 6 em andamento.**
 
 ### Progresso
 
@@ -293,11 +376,21 @@ A documentação será ampliada conforme novos endpoints forem desenvolvidos.
 - 🚧 Conferência — Etapa 6
 - ⏳ Qualidade e entrega — Etapa 7
 
-Atualmente, as etapas de fundamentos REST, gestão de feiras, produtos e orçamento e persistência estão concluídas.
+Atualmente, o projeto já possui uma API REST funcional com:
 
-A implementação da Etapa 5 já possui cadastro de usuários, persistência, validação básica, hash de senhas com BCrypt e configuração inicial do Spring Security.
+- Persistência em PostgreSQL.
+- Gerenciamento de usuários.
+- Autenticação baseada em JWT.
+- Controle de acesso por usuário.
+- Gerenciamento de feiras.
+- Gerenciamento de produtos.
+- Cálculo de valores previstos.
+- Sistema inicial de conferência de compras.
+- Comparação de preços e quantidades.
+- Identificação de divergências.
+- Testes automatizados das principais regras de negócio.
 
-O próximo passo da etapa é implementar a **autenticação**, seguida pela proteção efetiva dos recursos e pela restrição dos dados de acordo com o usuário autenticado.
+O próximo objetivo da **Etapa 6** é continuar evoluindo a conferência e posteriormente planejar a integração com **NFC-e**.
 
 ---
 

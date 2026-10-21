@@ -24,6 +24,9 @@ public class Feira {
     private StatusFeira status;
 
     @OneToMany(mappedBy = "feira")
+    private List<ItemConferencia> itemConferencia =  new ArrayList<>();
+
+    @OneToMany(mappedBy = "feira")
     private List<Produto> produtos = new ArrayList<>();
 
     public void setUsuario(Usuario usuario) {

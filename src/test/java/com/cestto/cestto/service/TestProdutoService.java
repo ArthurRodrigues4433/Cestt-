@@ -54,6 +54,7 @@ class TestProdutoService {
     private Produto criarProduto(Feira feira) {
         Produto produto = service.criarProduto(
                 feira,
+                "123456",
                 "arroz",
                 6,
                 4,
@@ -86,6 +87,7 @@ class TestProdutoService {
 
         Produto resultado = service.criarProduto(
                 feira,
+                "123456",
                 "arroz",
                 6,
                 4,
@@ -176,6 +178,7 @@ class TestProdutoService {
 
         Produto produto = service.criarProduto(
                 feira,
+                "123456",
                 "arroz",
                 6,
                 4,

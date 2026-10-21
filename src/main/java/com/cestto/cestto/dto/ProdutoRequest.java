@@ -11,6 +11,9 @@ public class ProdutoRequest {
     @NotBlank
     private String nome;
 
+    @NotBlank
+    private String codigoProduto;
+
     @Positive
     private  int quantidade;
 
@@ -44,4 +47,12 @@ public class ProdutoRequest {
     public BigDecimal getPrecoVarejo() {return precoVarejo;}
 
     public void setPrecoVarejo(BigDecimal precoVarejo){this.precoVarejo = precoVarejo;}
+
+    public String getCodigoProduto() {
+        return codigoProduto;
+    }
+
+    public void setCodigoProduto(String codigoProduto) {
+        this.codigoProduto = codigoProduto;
+    }
 }

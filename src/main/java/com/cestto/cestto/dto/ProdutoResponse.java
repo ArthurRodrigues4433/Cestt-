@@ -14,6 +14,7 @@ public class ProdutoResponse {
     private BigDecimal precoVarejo;
     private BigDecimal precoEscolhido;
     private BigDecimal subtotal;
+    private String codigoProduto;
 
     public ProdutoResponse(Produto produto) {
         this.produtoId = produto.getProdutoId();
@@ -24,6 +25,7 @@ public class ProdutoResponse {
         this.precoVarejo = produto.getPrecoVarejo();
         this.precoEscolhido = produto.getPrecoEscolhido();
         this.subtotal = produto.getSubtotal();
+        this.codigoProduto = produto.getCodigoProduto();
     }
 
     public Long getProdutoId() {
@@ -57,6 +59,9 @@ public class ProdutoResponse {
         return precoEscolhido;
     }
 
+    public String getCodigoProduto() {
+        return codigoProduto;
+    }
 
     public BigDecimal getSubtotal() {
         return subtotal;

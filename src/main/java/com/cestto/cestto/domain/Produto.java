@@ -17,6 +17,7 @@ public class Produto {
     private BigDecimal precoVarejo;
     private BigDecimal precoEscolhido;
     private BigDecimal subtotal;
+    private String codigoProduto;
 
     @ManyToOne
     @JoinColumn(name = "feira_id")
@@ -58,6 +59,13 @@ public class Produto {
         subtotal = precoEscolhido.multiply(BigDecimal.valueOf(quantidade));
     }
 
+    public void definirCodigoProduto(String codigoProduto) {
+        this.codigoProduto = codigoProduto;
+    }
+
+    public String getCodigoProduto() {
+        return codigoProduto;
+    }
     public Long getProdutoId() {
         return produtoId;
     }

@@ -17,6 +17,7 @@ public class ProdutoService {
 
     public Produto criarProduto(
             Feira feira,
+            String codigoProduto,
             String nome,
             int quantidade,
             int quantidadeMinimaAtacado,
@@ -35,6 +36,8 @@ public class ProdutoService {
                 precoAtacado,
                 precoVarejo
         );
+
+        novoProduto.definirCodigoProduto(codigoProduto);
 
         boolean adicionado = feira.adicionarProduto(novoProduto);
 

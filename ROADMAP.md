@@ -135,10 +135,32 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 
 ### Etapa 6 — Conferência
 
-- [ ] Definir o modelo dos dados cobrados.
-- [ ] Implementar comparação de valores.
-- [ ] Registrar divergências e pendências.
+- [x] Definir o modelo dos dados cobrados.
+- [x] Criar a entidade `ItemConferencia`.
+- [x] Criar o enum `StatusConferencia`.
+- [x] Criar o DTO `ItemNotaDTO`.
+- [x] Criar o `ItemConferenciaRepository`.
+- [x] Criar o `ItemConferenciaService`.
+- [x] Implementar a busca dos produtos planejados da feira para conferência.
+- [x] Implementar comparação dos produtos planejados com os itens da nota.
+- [x] Identificar produtos ausentes na nota.
+- [x] Identificar produtos presentes na nota mas não planejados na feira.
+- [x] Comparar preço planejado com preço cobrado.
+- [x] Comparar quantidade planejada com quantidade cobrada.
+- [x] Marcar como `CONFERIDO` somente quando preço e quantidade forem iguais.
+- [x] Marcar como `DIVERGENTE` quando preço ou quantidade forem diferentes.
+- [x] Registrar itens `AUSENTE_NA_NOTA`.
+- [x] Registrar itens `NAO_PLANEJADO`.
+- [x] Persistir os resultados da conferência.
+- [x] Criar testes automatizados para os comportamentos implementados.
+- [x] Testar item com preço igual.
+- [x] Testar item com preço diferente.
+- [x] Testar item com quantidade diferente.
+- [x] Testar produto planejado ausente na nota.
+- [x] Testar produto presente na nota mas não planejado.
 - [ ] Implementar o encerramento da conferência.
+- [ ] Criar os endpoints REST da conferência.
+- [ ] Revisar o modelo final do resultado da conferência.
 - [ ] Planejar e desenvolver a integração NFC-e.
 
 ### Etapa 7 — Qualidade e entrega
@@ -171,6 +193,7 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 | 2026-10-02 | Etapa 5 — Usuários e segurança | Implementada a regra de uma única feira `EM_ANDAMENTO` por usuário. Um usuário não consegue criar uma nova feira enquanto possuir outra feira ativa. | Testar os fluxos de acesso autorizado e não autorizado e revisar a etapa de segurança. |
 | 2026-10-02 | Etapa 5 — Usuários e segurança | Testados no Swagger os fluxos autenticados e não autenticados, incluindo acesso autorizado aos próprios dados e bloqueio de acesso aos dados pertencentes a outro usuário. | Concluir a revisão da Etapa 5 e avançar para a etapa de conferência. |
 | 2026-10-10 | Etapa 5 — Usuários e segurança | Revisão da autenticação JWT, autorização por usuário e regras de acesso. Testes automatizados executados com sucesso, totalizando 49 testes aprovados. | Iniciar a Etapa 6 — Conferência. |
+| 2026-10-21 | Etapa 6 — Conferência | Criado o modelo `ItemConferencia`, o enum `StatusConferencia`, o DTO `ItemNotaDTO`, o repository e o `ItemConferenciaService`. Implementada a comparação entre os produtos planejados da feira e os itens da nota, identificando itens conferidos, divergentes, ausentes na nota e não planejados. A regra de conferência considera preço e quantidade: o item somente é `CONFERIDO` quando ambos são iguais. Criados e executados testes JUnit para os comportamentos implementados. | Implementar o encerramento da conferência e depois expor a conferência através dos endpoints REST. |
 
 ## Decisões e pendências
 
@@ -203,3 +226,9 @@ Desenvolver gradualmente uma API REST para planejamento e conferência de compra
 - A Etapa 5 — Usuários e segurança está funcional e a autenticação JWT já foi implementada.
 - A próxima etapa do projeto é a Etapa 6 — Conferência.
 - Não adicionar funcionalidades ao MVP sem revisar seu impacto no planejamento.
+- A conferência compara os produtos planejados na feira com os itens encontrados na nota.
+- Um item é considerado `CONFERIDO` somente quando a quantidade cobrada e o preço unitário cobrado são iguais aos valores planejados.
+- Um item é considerado `DIVERGENTE` quando o preço ou a quantidade forem diferentes.
+- Um produto planejado que não aparece na nota recebe o status `AUSENTE_NA_NOTA`.
+- Um produto que aparece na nota mas não estava planejado na feira recebe o status `NAO_PLANEJADO`.
+- Os resultados da conferência são representados pela entidade `ItemConferencia` e persistidos no banco.

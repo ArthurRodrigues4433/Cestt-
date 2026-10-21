@@ -1,4 +1,3 @@
-
 package com.cestto.cestto.controller;
 
 import com.cestto.cestto.domain.Feira;
@@ -30,6 +29,7 @@ class TestProdutoController {
 
     @Test
     void deveCriarProdutoPeloController() {
+
         FeiraService feiraService = mock(FeiraService.class);
         ProdutoService produtoService = mock(ProdutoService.class);
 
@@ -42,14 +42,21 @@ class TestProdutoController {
         UserPrincipal principal = new UserPrincipal(usuario);
 
         var autenticacao = new UsernamePasswordAuthenticationToken(
-                principal, null, principal.getAuthorities());
+                principal,
+                null,
+                principal.getAuthorities()
+        );
 
         SecurityContextHolder.getContext().setAuthentication(autenticacao);
 
         Feira feira = mock(Feira.class);
-        when(feiraService.getFeiraPorId(10L, 1L)).thenReturn(feira);
+
+        when(feiraService.getFeiraPorId(10L, 1L))
+                .thenReturn(feira);
 
         ProdutoRequest request = new ProdutoRequest();
+
+        request.setCodigoProduto("123456");
         request.setNome("arroz");
         request.setQuantidade(6);
         request.setQuantidadeMinimaAtacado(4);
@@ -57,8 +64,10 @@ class TestProdutoController {
         request.setPrecoVarejo(new BigDecimal("25.00"));
 
         Produto produto = mock(Produto.class);
+
         when(produtoService.criarProduto(
                 feira,
+                "123456",
                 "arroz",
                 6,
                 4,
@@ -67,23 +76,34 @@ class TestProdutoController {
         )).thenReturn(produto);
 
         when(produto.getProdutoId()).thenReturn(1L);
+        when(produto.getCodigoProduto()).thenReturn("123456");
         when(produto.getNome()).thenReturn("arroz");
         when(produto.getQuantidade()).thenReturn(6);
         when(produto.getQuantidadeMinimaAtacado()).thenReturn(4);
-        when(produto.getPrecoAtacado()).thenReturn(new BigDecimal("15.00"));
-        when(produto.getPrecoVarejo()).thenReturn(new BigDecimal("25.00"));
-        when(produto.getPrecoEscolhido()).thenReturn(new BigDecimal("15.00"));
-        when(produto.getSubtotal()).thenReturn(new BigDecimal("90.00"));
+        when(produto.getPrecoAtacado())
+                .thenReturn(new BigDecimal("15.00"));
+        when(produto.getPrecoVarejo())
+                .thenReturn(new BigDecimal("25.00"));
+        when(produto.getPrecoEscolhido())
+                .thenReturn(new BigDecimal("15.00"));
+        when(produto.getSubtotal())
+                .thenReturn(new BigDecimal("90.00"));
 
         ResponseEntity<ProdutoResponse> response =
                 controller.criarProduto(10L, request);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("arroz", response.getBody().getNome());
+
+        assertEquals("123456",
+                response.getBody().getCodigoProduto());
+
+        assertEquals("arroz",
+                response.getBody().getNome());
 
         verify(produtoService).criarProduto(
                 feira,
+                "123456",
                 "arroz",
                 6,
                 4,
